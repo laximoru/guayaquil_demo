@@ -1,0 +1,21 @@
+{% block frameSearch %}
+    {% apply spaceless %}
+        {% set frameExample = cataloginfo.frameSearchFeature.example %}
+        <div class="find">
+            <h2>{{ 'searchbyframe'|t }}</h2>
+            <span class="example gray">{{ 'inputframe'|t(frameExample|upper) }}</span>
+            <form name="findByFrame" onsubmit="checkFrameValue(this.frameNo.value, this.frameSubmit);return false;"
+                  id="findByFrame">
+                <div id="FrameNoInput" class="g_input">
+                    <input class="catalog_search_input" name="frameNo" type="text" id="frameNo"
+                           size="17" width="120" value="">
+                    <input type="submit" class="btn search" name="frameSubmit" value="" id="frameSubmit">
+                </div>
+
+                <input type="hidden" name="task" value="vehicles"/>
+                <input type="hidden" name="ft" value="findByFrame"/>
+                <input type="hidden" name="c" value="{{ cataloginfo.code }}"/>
+            </form>
+        </div>
+    {% endapply %}
+{% endblock %}

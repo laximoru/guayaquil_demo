@@ -1,0 +1,16 @@
+<div>
+    <div class="alert_message"><span>{{ message|t }}</span></div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery(document).on('click', '.show-more-button a', function () {
+            var traceTable = jQuery(document).find('div.more');
+            traceTable.toggleClass('hidden');
+            if (traceTable.hasClass('hidden')) {
+                jQuery(this).text('{{ 'showMore'|t }}')
+            } else {
+                jQuery(this).text('{{ 'hide'|t }}');
+            }
+        });
+    });
+</script>

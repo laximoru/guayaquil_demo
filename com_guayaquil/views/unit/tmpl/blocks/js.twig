@@ -1,0 +1,76 @@
+{% block js %}
+    <script type="text/javascript">
+        window.onpopstate = function (event) {
+            alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+        };
+
+        jQuery(document).ready(function () {
+            jQuery('div.dragger').dblclick(function () {
+                var el = jQuery(this);
+                var elName = el.attr('name');
+
+                var items = jQuery('tr[name=' + elName + ']');
+
+                if (items.length == 0) {
+                    return false;
+                }
+
+                if (items.length == 1) {
+                    var id = jQuery(items[0]).attr('id');
+                    items = jQuery('#' + id + ' a.follow');
+
+                    if (items.length == 0) {
+                        return false;
+                    }
+
+                    jQuery(items[0]).attr('target', '_blank').click();
+                } else {
+                    jQuery.colorbox({
+                        onOpen: function () {
+                            jQuery('[data-helper-tooltip-jquery]').tooltip("destroy");
+                        },
+
+                        'html': function () {
+                            var name = jQuery('tr[name=' + elName + ']:eq(0) td[name=c_name]').text().trim();
+
+                            var html = jQuery('<h2 class="block_header">' + name + '</h2><span class="grey">' +
+                                '{{ 'selectdetail'|t }}</span>');
+                            var items = jQuery('tr[name=' + elName + ']');
+                            var table = jQuery('<table class="table guayaquil_table collapse" id="variancy"></table>');
+
+                            items.each(function () {
+                                    var clone = jQuery(this).clone();
+                                    clone.find('td:first-child').remove();
+                                    clone.find('[name="c_tooltip"]').remove();
+                                    clone.find('[name="c_oem"]').show();
+                                    clone.removeClass('g_highlight_over');
+                                    clone.removeClass('g_highlight_lock');
+                                    clone.addClass('g_highlight');
+                                    table.append(clone);
+
+                                }
+                            );
+                            return jQuery('<div class="unit-list"></div>').append(html).append(table);
+                        },
+                        'opacity': 0.3,
+                        'maxHeight': '98%',
+                        onComplete: function () {
+                            jQuery.colorbox.resize();
+                        }
+                    })
+                }
+            });
+
+            {% if corrected %}
+            window.history.back();
+            {% endif %}
+
+            if (jQuery(document).find('#viewtable tr.g_highlight_lock').length) {
+                jQuery(document).find('.column').animate({
+                    scrollTop: jQuery('#viewtable tr.g_highlight_lock').position().top
+                }, 1000);
+            }
+        });
+
+    </script>
+{% endblock %}

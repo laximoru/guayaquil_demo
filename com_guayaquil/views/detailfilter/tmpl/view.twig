@@ -1,0 +1,90 @@
+<div class="unit_filter">
+    <div class="page_header">
+        <h2>{{ 'refineparams'|t }}</h2>
+        <span>{{ 'selectfromdropdown'|t }}</span>
+    </div>
+    <div class="filter_form">
+        <form name="filter">
+            {% for filter in filters.fields %}
+                    <div class="filter_label_wrapper">
+                        <span>{{ filter.name }}</span>
+                    </div>
+                    <div class="filter_select_wrapper">
+                        {% if filter.type == 'list' %}
+                            <select class="select" name="ssd" id="select">
+                                <option value="null"></option>
+                                {% for option in filter.values %}
+
+                                    {% set link = createUrl('', '',{
+                                    'task'    : fromTask,
+                                    'fromTask': fromCatalogTask,
+                                    'c'       : from['c'],
+                                    'vid'     : from['vid'],
+                                    'ssd'     : from['ssd'] ~ option.ssdmodification,
+                                    'path_id' : from['path_id'],
+                                    'uid'     : from['uid'],
+                                    'gid'     : from['gid'],
+                                    'cid'     : from['cid']
+                                    }) %}
+
+                                    <option value="{{ link }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </div>
+            {% endfor %}
+            <div class="controls">
+                <a class="button skip-select" href="{{ config.backUrl|replace({'{article}': oem|url_encode, '{brand}': brand|url_encode }) }}" {% if config.linkTarget %}target="{{ config.linkTarget }}"{% endif %}>{{ 'skipselection'|t }}</a>
+                <input type="submit" class="button" value="{{ 'confirm'|t }}">
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery(document).on('click', '#btnClose', function () {
+            jQuery.colorbox.close();
+        });
+
+        jQuery(document).on('submit', 'form[name="filter"]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var $form = jQuery(this);
+            var url = $form.find('select[name="ssd"] option:selected').val();
+            console.log(url);
+
+            if (url && url !== 'null') {
+                top.history.replaceState({}, '', url);
+                top.location = url + '&corrected=true';
+                window.location = url + '&corrected=true';
+                jQuery.colorbox.close();
+                $form.find('select[name="ssd"]').removeClass('g_input_error');
+            } else {
+                $form.find('select[name="ssd"]').addClass('g_input_error');
+            }
+        });
+
+        function Resize_Box() {
+            var x = jQuery('body').width();
+            var y = jQuery('body').height();
+
+            var height = y + 20;
+            var width =  x + 20;
+            parent.jQuery.fn.colorbox.resize({
+                innerWidth: width,
+                innerHeight: height
+            });
+        }
+        jQuery(document).ready(function () {
+            jQuery(document).ready(function () {
+                Resize_Box();
+            });
+            jQuery('.response-data-link').on('afterToggle', function () {
+                Resize_Box();
+            });
+        })
+    });
+</script>

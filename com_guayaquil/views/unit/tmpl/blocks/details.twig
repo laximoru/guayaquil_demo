@@ -1,0 +1,113 @@
+{% block details %}
+    <div class="column">
+        {% if details %}
+            <table class="table guayaquil_table collapse" id="viewtable">
+                <tbody>
+                <tr>
+                    <th id="c_pnc">{{ 'columndetailcodeonimage'|t }}</th>
+                    <th id="c_vars"></th>
+                    <th id="c_oem">{{ 'columndetailoem'|t }}</th>
+                    <th id="c_name">{{ 'columndetailname'|t }}</th>
+                    <th id="links"></th>
+                    <th id="c_tooltip"></th>
+                    <th id="c_flag" style="display:none;">{{ 'columndetailflag' }}</th>
+                    <th id="c_availability" style="display:none;">{{ 'wheretobuy'|t }}</th>
+                    <th id="c_note" style="display:none;">{{ 'wheretobuy'|t }}</th>
+                </tr>
+                {% set codeOnImage = '0' %}
+                {% set variant = 0 %}
+
+                {% for detail in details %}
+                    <tr id="d_{{ detail.codeonimage }}" name="{{ detail.codeonimage }}"
+                        class="g_highlight {% if detail.codeonimage and detail.codeonimage in cois %} g_highlight_lock {% endif %} ">
+                        <td name="c_pnc"
+                            class="g_ttd codeonimage">
+                            {% if not variant %}
+                                {{ detail.codeonimage }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if details[loop.index0 + 1].codeonimage == detail.codeonimage %}
+                                {% set variant = variant + 1 %}
+
+                                <span class="grey text-small nowrap">{{ 'detailvariant'|t ~ variant }}</span>
+                            {% else %}
+                                {% if detail.codeonimage and details[loop.index0 - 1].codeonimage == detail.codeonimage %}
+                                    <span class="grey text-small nowrap">{{ 'detailvariant'|t ~ (variant + 1 ~ '') }}</span>
+                                {% endif %}
+
+                                {% set variant = 0 %}
+                            {% endif %}
+                        </td>
+                        <td name=c_oem class="{{ detail.oem != '' ? 'g_ttd' : '' }}">
+                            {% if user.isLoggedIn or config.showOemsToGuest %}
+                                {% if detail.filter %}
+                                    {% set filterUrl = createUrl('detailfilter', '', '', {
+                                        'c': catalog,
+                                        'cid': cid,
+                                        'vid': vid ?: 0,
+                                        'uid': unit.unitid,
+                                        'gid': gid,
+                                        'oem': detail.oem,
+                                        'brand':vehicle.brand|url_encode,
+                                        'did': '',
+                                        'f': detail.filter,
+                                        'ssd': detail.ssd,
+                                        'fromTask' : 'unit',
+                                        'fromCatalogTask' : fromCatalogTask
+                                    }) %}
+
+
+                                    <a href="javascript:void(0)" data-url="{{ filterUrl }}"
+                                       id="filter">{{ detail.oem }} {{ 'needconfirm'|t }}</a>
+                                {% else %}
+                                    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode }) %}
+                                    <a href="{{ marketUrl ? marketUrl : 'javascript:void(0)' }}"
+                                       {% if config.linkTarget %}target="{{ config.linkTarget }}"{% endif %}>{{ detail.oem }}</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="javascript:void(0)" class="logging">*****</a>
+                            {% endif %}
+                        </td>
+                        <td name=c_name class="{{ detail.name != '' ? 'g_ttd' : '' }}">
+                            {{ detail.name and detail.name != '' ? detail.name : 'unitnotspecifed'|t }}
+                        </td>
+                        <td>
+                            {% if detail.links %}
+                                {% for detailLink in detail.links %}
+                                    {% set referenceLink = createUrl('vehicle', '', '', {
+                                        'c': detailLink.catalog,
+                                        'cid': detailLink.categoryId,
+                                        'vid': detailLink.vehicleId,
+                                        'ssd': detailLink.ssd,
+                                        'linkedWithUnit' : 1
+                                    }) %}
+                                    <a href="{{ referenceLink }}" class="detail-link-tooltip"
+                                       data-label="{{ detailLink.label }}">
+                                        <div class="link"></div>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td class="g_rowdatahint" name="c_tooltip">
+                            <div class="info"></div>
+                        </td>
+                        <td name="c_note" style="display:none;" class="g_ttd">
+                            {% for note in detail.attributes %}
+                                <div class="item">
+                                    <span class="name">{{ note.name }}</span>
+                                    <span class="value">{{ note.value }}</span>
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-items">
+                <span class="grey">{{ 'unitDetailsNoResulst'|t }}</span>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

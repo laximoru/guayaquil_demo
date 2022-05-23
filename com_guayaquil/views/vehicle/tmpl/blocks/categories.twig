@@ -1,0 +1,104 @@
+{% block oemSearch %}
+    {% apply spaceless %}
+        <div class="find">
+            <form name="findByOEM" onSubmit="checkOem(this.OEM.value, '#OEM', this.ssd.value); return false"
+                  id="findByOEM">
+
+                <div id="OEMInput" class="g_input">
+                    <input placeholder="{{ 'findOems'|t }}" class="catalog_search_input" name="oem" type="text"
+                           id="OEM" size="17" value=""/>
+                    <input type="submit" class="btn search" name="oemSubmit" value="" id="oemSubmit"/>
+                </div>
+
+                <input type="hidden" name="task" value="applicabilitydetails"/>
+                <input type="hidden" name="ssd" value="{{ vehicle.ssd ?: ssd }}"/>
+                <input type="hidden" name="vid" value="{{ vehicle.vehicleid }}"/>
+                <input type="hidden" name="c" value="{{ cataloginfo.code }}"/>
+            </form>
+        </div>
+    {% endapply %}
+{% endblock %}
+
+{% block categories %}
+    {% apply spaceless -%}
+        <div class="guayaquil_categoryfloatbox">
+            <div>
+                <ul id="category-list">
+                    <li class="category"><a class="category-heading">{{ 'categories'|t }}</a></li>
+                    {% for category in categories %}
+                        {% block categories_row %}
+                            {% set categoryLink = createUrl('vehicle', '', '', {
+                            'c': vehicle.catalog,
+                            'vid': vehicle.vehicleid ?: 0,
+                            'cid': category.categoryid,
+                            'ssd': category.ssd
+                            }) %}
+
+                            {% set currentCategory =
+                            (cCid == category.categoryid) or (not cCid and loop.index == 1) ? true : false %}
+
+                            {% set currentParrent = cCid == category.parentcategoryid ? true : false %}
+                            <li data-parent="{{ category.parentcategoryid }}"
+                                data-cid="{{ category.categoryid }}"
+                                class="category {{ category.childrens|length == 0 ? 'no-childrens' : '' }} {{ currentCategory and not linkedWithUnit ? 'current' : '' }}">
+
+                                {% if category.childrens|length > 0 %}
+                                    <span class="plus" data-cid="{{ category.categoryid }}">+</span>
+                                {% endif %}
+
+                                <a href="{{ categoryLink }}"
+                                   class="{{ currentCategory and not linkedWithUnit ? 'active': '' }}">{{ category.code ? category.code ~ ': ' ~ category.name : category.name }}</a>
+                                {% if category.childrens|length > 0 %}
+                                    <ul class="unitlist-subcategory hidden"
+                                        data-parent="{{ category.parentcategoryid }}"
+                                        data-cid="{{ category.categoryid }}">
+                                        {% for category in category.childrens %}
+                                            {{ block('categories_row') }}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endblock %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                var current = jQuery(document).find('li[data-cid="' + '{{ cCid }}' + '"]');
+                var parent  = current ? jQuery(current).data('parent') : null;
+                if (parent) {
+                    var cParent = current[0];
+
+                    do {
+                        var plus = cParent.querySelector('.plus');
+                        var ul   = cParent.querySelector('ul');
+
+                        if (plus) {
+                            plus.innerText = '-';
+                        }
+
+                        if (ul) {
+                            ul.classList.remove('hidden');
+                        }
+                    } while (cParent = cParent.closest('li[data-cid="' + cParent.dataset.parent + '"]'));
+                }
+
+                jQuery(document).on('click', '.plus', function () {
+                    var cid     = jQuery(this).data('cid');
+                    var wrapper = jQuery(this).closest('ul');
+                    var toShow  = jQuery(wrapper).find('li[data-cid="' + cid + '"] > .unitlist-subcategory');
+
+                    if (jQuery(toShow).hasClass('hidden')) {
+                        jQuery(toShow).removeClass('hidden');
+                        jQuery(this).text('-');
+                    } else {
+                        jQuery(toShow).addClass('hidden');
+                        jQuery(this).text('+');
+                    }
+                });
+            });
+        </script>
+    {% endapply %}
+{% endblock %}

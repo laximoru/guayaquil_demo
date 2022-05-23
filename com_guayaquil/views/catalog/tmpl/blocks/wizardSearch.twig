@@ -1,0 +1,37 @@
+{% block wizardsearch %}
+
+    <div class="find">
+        <h2>{{ 'search by wizard'|t }}</h2>
+        <form name="findByParameterIdentification" id="findByParameterIdentification">
+            <table border="0">
+                <tbody>
+                    {% for field in wizardFields %}
+                        <tr class="guayaquil_SelectedRow">
+                            <td>{{ field.name }}</td>
+                            <td>
+                               <select class="catalog_search_input select" {{ field.determined ? 'disabled' : '' }} name="Select" onchange="openWizard(this.options[this.selectedIndex].value, '{{ cataloginfo.code }}'); return false;">
+                                   {% if field.determined %}
+                                   {% else %}
+                                       <option value="null"></option>
+                                   {% endif %}
+                                   {% for value in field.options %}
+                                       <option value="{{ value.key }}">{{value.value }}</option>
+                                   {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+
+    <script type="text/javascript">
+        jQuery(window).bind('pageshow', function() {
+            jQuery('form#findByParameterIdentification').find('select').val('');
+        })
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% block oemSearch %}
+    {% apply spaceless %}
+        <form name="findByOEM" onSubmit="checkOem(this.OEM.value, '#OEM'); return false;" id="findByOEM">
+            <div id="OEMInput" class="g_input">
+                <input class="catalog_search_input" name="oem" type="text" id="OEM" size="17" value=""/>
+                <input type="submit" class="btn search" name="oemSubmit" value="" id="oemSubmit"/>
+            </div>
+            <input type="hidden" name="task" value="vehicles"/>
+            <input type="hidden" name="ft" value="findByOEM"/>
+            <input type="hidden" name="c" value=""/>
+        </form>
+        <span class="example gray">{{ 'searchbyoemexample'|t(oemExample) }}</span>
+    {% endapply %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% if config.showRequest %}
+    {{ include('layouts/request.twig') }}
+{% endif %}
+
+{{ include('layouts/message.twig') }}
+
+{{ include(renderTemplate) }}

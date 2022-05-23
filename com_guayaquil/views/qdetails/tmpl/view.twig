@@ -1,0 +1,179 @@
+{% use 'blocks/detailsTable.twig' %}
+{% use 'blocks/unit.twig' %}
+
+
+{% set vehicleLink = createUrl('vehicle', '', '', {
+'c': vehicle.catalog,
+'vid': vehicle.vehicleid ?: 0,
+'ssd': vehicle.ssd,
+}) %}
+<div class="qdetails">
+    {% if format != 'raw' %}
+        <div class="guayaquil_page_header">
+            <h1>{{ 'groupdetails'|t }}</h1>
+        </div>
+        <div id="guayaquil_toolbar" class="xboxcontent">
+        <span class="g_ToolbarButton">
+            <a href="{{ vehicleLink }}">
+                {{ 'vehiclelink'|t }}
+            </a>
+        </span>
+        </div>
+    {% endif %}
+    <div id="responseDataBlock" class="hidden">
+        <div class="request_message_raw">
+            <div class="request_time">
+                {{ 'REQUEST_TIME'|t(this.lastExecutionTime|round(4)) }}
+            </div>
+            {% for request in request.textRequests %}
+                <div>
+                    <b>{{ loop.index }}:</b> {{ request }}
+                </div>
+            {% endfor %}
+        </div>
+        {%- apply spaceless -%}
+            <div class="response_message_raw">
+                <code class="hljs xml">{{ request.responseData }}</code>
+            </div>
+        {% endapply %}
+    </div>
+    {% if details.categories %}
+        {% for category in details.categories %}
+            {% set linkToCategory =  createUrl('vehicle', '', '', {
+            'c': vehicle.catalog,
+            'vid': vehicle.vehicleid ?: 0,
+            'cid': category.categoryid,
+            'ssd': category.ssd
+            }) %}
+
+            <div class="category">
+                <div class="header">
+                    <h3>
+                        <a href="{{ linkToCategory }}">
+                            {{ category.name }}
+                        </a>
+                    </h3>
+                </div>
+                {% for unit in category.units %}
+                    {% set code = {} %}
+                    {% set group = {} %}
+
+                    {% for unitDetail in unit.details %}
+                        {% if unitDetail.match != 't' %}
+                            {% set code = code|merge([unitDetail.codeonimage]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="row_wrapper">
+                        {{ block('unit') }}
+                        {{ block('detailsTable') }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>
+            <span>
+                {{ 'qDetailsNoResult'|t }}<a
+                        href="{{ vehicleLink }}">{{ 'qDetailsNoResultLink'|t }}</a>{{ 'qDetailsNoResultAfterLink'|t }}
+            </span>
+        </div>
+    {% endif %}
+</div>
+<div id="login-form-data" class="hidden">
+    <div class="login-container">
+        {% apply spaceless %}
+            <form action="{{ createUrl('login', 'login') }}" class="login-form with-validate"
+                  method="post">
+                <div class="login-description">
+                    {{ 'GET_LOGIN'|t|raw }}
+                </div>
+                <div>
+                    <input type="text" class="required" placeholder="{{ 'USERNAME'|t }}"
+                           name="user[login]">
+                </div>
+                <div>
+                    <input type="password" class="required" placeholder="{{ 'PASSWORD'|t }}"
+                           name="user[password]">
+                </div>
+                <div>
+                    <input type="hidden" name="user[backurl]" value="">
+                    <button type="submit" style="width: 100%" class="button">{{ 'LOGIN'|t }}</button>
+                </div>
+            </form>
+        {% endapply %}
+    </div>
+</div>
+
+<div data-copiright="true"></div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        jQuery('#login-form-data input[name="user[backurl]"]').val(window.location.href);
+        var loginContent = jQuery(document).find('#login-form-data div.login-container').first();
+
+        jQuery('a.logging').colorbox({
+            html: function () {
+                return loginContent;
+            },
+            height: 255,
+            width: 280,
+            close: '',
+            onComplete: function () {
+                jQuery('#cboxTitle').hide();
+                jQuery('form.with-validate [type="submit"]').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    login(this);
+                });
+            }
+        });
+
+        jQuery('td.g_rowdatahint').tooltip({
+            track: true,
+            delay: 0,
+            showURL: false,
+            fade: 250,
+            positionLeft: true,
+            bodyHandler: g_getHint
+        });
+
+        jQuery('tr.g_highlight a.follow').colorbox({
+            'href': function () {
+                var url = (jQuery(this).attr('href')).replace(/[ ]/g, '');
+                url += (url.indexOf('?') >= 0 ? '&' : '?') + 'format=raw';
+                return url;
+            },
+            'opacity': 0.3,
+            'innerWidth': '1000px',
+            'maxHeight': '98%'
+        });
+
+        jQuery('.guayaquil_zoom').colorbox({
+            'href': function () {
+                var url = jQuery(this).attr('full');
+                return url;
+            },
+            'photo': true,
+            'opacity': 0.3,
+            'title': function () {
+                var title = jQuery(this).attr('title');
+                return title;
+            },
+            'maxWidth': '98%',
+            'maxHeight': '98%',
+            close: ''
+        });
+
+        jQuery('.qgroups-unit-filter').colorbox({
+            href: function () {
+                var url = jQuery(this).data('url');
+                return url;
+            },
+            iframe: true,
+            close: '',
+            width: 800,
+            height: 250
+        });
+    });
+</script>

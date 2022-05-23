@@ -1,0 +1,49 @@
+{% use 'blocks/detailsTable/row.twig' %}
+{% use 'blocks/detailsTable/tableHead.twig' %}
+
+{% block detailsTable %}
+    <div class="details_table_wrapper">
+        <table class="table guayaquil_table collapse" id="g_DetailTable1">
+            <tbody>
+
+            {{ block('tableHead') }}
+
+            {% set hasAnother = 0 %}
+
+            {% for group in unit.detailsByCode %}
+                {% for detail in group %}
+                    {% if detail.match %}
+                        {{ block('row') }}
+                    {% else %}
+                        {% set hasAnother = hasAnother + 1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            {% if hasAnother > 0 %}
+                <tr>
+                    <td colspan="99">
+                        <img class="g_additional_toggler g_addcollapsed"
+                             src="com_guayaquil/assets/images/closed.gif"
+                             width="16" height="16"
+                             data-unit="{{ unit.unitid }}">
+                        <a href="javascript:void(0)" data-unit="{{ unit.unitid }}"
+                           class="g_additional_toggler">{{ 'otherunitparts'|t }}</a>
+                    </td>
+                </tr>
+            {% endif %}
+
+            {% for group in unit.detailsByCode %}
+                {% for detail in group %}
+                    {% if not detail.match %}
+                        {% set anotherFromUnit = 'true' %}
+                        {{ block('row') }}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

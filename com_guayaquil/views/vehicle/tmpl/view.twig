@@ -1,0 +1,31 @@
+{% use 'blocks/categories.twig' %}
+{% use 'blocks/units.twig' %}
+{% apply spaceless %}
+    <h1>{{ 'carname'|t(vehicle.brand ~ ' ' ~ vehicle.name) }}</h1>
+    <div id="pagecontent" class="vehicle-page-wrapper">
+        {% block top_line %}
+            <div id="guayaquil_toolbar" class="xboxcontent">
+                {% if cataloginfo.quickGroupsFeature != null and (user.isLoggedIn or config.showGroupsToGuest) %}
+                    <span class="g_ToolbarButton">
+                    {% set qgroupsLink = createUrl('qgroups', '', '', {
+                    'c':vehicle.catalog,
+                    'vid':vehicle.vehicleid,
+                    'ssd':vehicle.ssd,
+                    }) %}
+                        <a href="{{ qgroupsLink }}">
+                        {{ 'quickgroupslink'|t }}
+                    </a>
+                </span>
+                {% endif %}
+                {% if useApplicability and config.showApplicability %}
+                    <div class="oem-search">
+                        {{ block('oemSearch') }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endblock %}
+
+        {{ block('units') }}
+        {{ block('categories') }}
+    </div>
+{% endapply %}

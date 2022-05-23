@@ -1,0 +1,14 @@
+{% block unit_remark %}
+    <div class="attributes_wrapper">
+        {% if unit.attributes %}
+            {% for attribute in unit.attributes %}
+                <div class="attributes">
+                        <span>
+                            <b>{{ attribute.name }}:</b>
+                        </span>
+                    {{ attribute.value|replace({';;' : '; \n', ';' : '; \n'}) }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

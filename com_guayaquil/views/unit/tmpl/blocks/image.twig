@@ -1,0 +1,58 @@
+{% block image %}
+    {% if unit.largeImageUrl %}
+        <div class="guayaquil_unit_icons">
+            <div class="guayaquil_zoom cboxElement"
+                 full="{{ unit.largeImageUrl }}"
+                 title="{{ unit.code }}: {{ unit.name }}">
+                <img src="com_guayaquil/assets/images/zoom_{{ config.theme }}.png">
+            </div>
+        </div>
+    {% endif %}
+    <div id="viewport">
+        {% if imagemap %}
+            {% for item in imagemap %}
+                {% set coi = item.code %}
+                {% set width = item.x2 - item.x1 %}
+                {% set height = item.y2 - item.y1 %}
+                {% set oleft = item.x1 %}
+                {% set otop = item.y1 %}
+
+                {% if coi in detailCodes or item.link %}
+                    <div name="{{ item.code }}"
+                         class="dragger g_highlight {{ item.link ? 'detail-link-tooltip' : 'unit-tooltip' }} {% if coi in cois %}g_highlight_lock{% endif %}"
+                         style="width: {{ width }}; height: {{ height }};
+                                 margin-left: {{ oleft }}px;
+                                 margin-top: {{ otop }}px;
+                                 position: absolute;
+                                 overflow: hidden;"
+                         {% if item.link %}
+                            data-label="{{item.link.label }}"
+                         {% endif %}
+                         owidth="{{ width }}px"
+                         oheight="{{ height }}px"
+                         oleft="{{ oleft }}px"
+                         otop="{{ otop }}px">
+                        {% if item.link %}
+                        {% set referenceLink = createUrl('vehicle', '', '', {
+                            'c': item.link.catalog,
+                            'cid': item.link.categoryId,
+                            'vid': item.link.vehicleId,
+                            'ssd': item.link.ssd,
+                            'linkedWithUnit' : 1
+                        }) %}
+                            <a href="{{ referenceLink }}">
+                         {% endif %}
+                            <img src="com_guayaquil/assets/images/spacer.gif" width="{{ width }}" height="{{ height }}">
+                        {% if item.link %}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <img class="dragger"
+             src="{{ unit.largeImageUrl ? unit.largeImageUrl : config.imagePlaceholder }}"
+             onload="rescaleImage(-100, {x: 0, y: 0});">
+    </div>
+{% endblock %}

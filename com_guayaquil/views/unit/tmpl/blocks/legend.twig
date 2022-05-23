@@ -1,0 +1,29 @@
+{% block legend %}
+    <table width="49%" class="legend-table" border="0">
+        <tbody>
+        <tr>
+            <th align="left" colspan="4">{{ 'unit_legend'|t }}</th>
+        </tr>
+        <tr>
+            <td align="left">
+                <img src="com_guayaquil/assets/images/mouse_wheel.png"></td>
+            <td> - {{ 'unit_legend_image_resizing'|t }}</td>
+            <td align="left">
+                <img src="com_guayaquil/assets/images/lmb.png">
+                <img src="com_guayaquil/assets/images/move.png"></td>
+            <td> - {{ 'unit_legend_mouse_scroll_image'|t }}</td>
+        </tr>
+        <tr>
+            <td align="left">
+                <img src="com_guayaquil/assets/images/mouse.png">
+                <img src="com_guayaquil/assets/images/pointer.png"></td>
+            <td> - {{ 'unit_legend_highlight_parts'|t }}</td>
+            <td align="left">
+                <img src="com_guayaquil/assets/images/lmb.png">
+                <img src="com_guayaquil/assets/images/info_{{ config.theme }}.png">
+            </td>
+            <td> - {{ 'unit_legend_show_hind'|t }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

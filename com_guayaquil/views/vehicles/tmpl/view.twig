@@ -1,0 +1,41 @@
+<div class="vehicles-page-wrapper">
+    {% use 'blocks/vinSearch.twig' %}
+    {% use 'blocks/frameSearch.twig' %}
+    {% use 'blocks/searchByOther.twig' %}
+    {% use 'blocks/searchTable.twig' %}
+    {% use 'blocks/searchVehicle.twig' %}
+    {% use 'blocks/oemSearch.twig' %}
+    {% use 'blocks/groupedVehicles.twig' %}
+
+    {{ block('searchTable') }}
+    {% if vehicles %}
+        <h1>{{ 'cars'|t }}</h1>
+
+        {% if showGrouppedVehicle %}
+            {{ block('groupedVehicles') }}
+        {% else %}
+            {{ block('vehicles') }}
+        {% endif %}
+
+        {% for operation in cataloginfo.operations %}
+            {{ block('searchByOther') }}
+        {% endfor %}
+
+    {% else %}
+        <span>{{ notFoundReason ? notFoundReason : 'notfound'|t(type.name, type.value) }}</span>
+    {% endif %}
+
+    <script type="text/javascript">
+        jQuery('.guayaquil_table.table tr.hastooltip').tooltip({
+            track: true,
+            delay: 0,
+            showURL: false,
+            fade: 250,
+            position: {my: 'center bottom'},
+            bodyHandler: function () {
+                var tooltipContext = jQuery(this).find('.ttp');
+                return tooltipContext.html();
+            }
+        });
+    </script>
+</div>

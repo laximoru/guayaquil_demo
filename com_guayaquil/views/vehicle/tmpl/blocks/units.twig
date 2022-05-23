@@ -1,0 +1,83 @@
+{% use 'blocks/tooltips.twig' %}
+{% block units %}
+    <div class="float-unitlist">
+        {% for unit in units %}
+            {% set linkToUnit = createUrl('unit','','', {
+                'c': vehicle.catalog,
+                'vid': vehicle.vehicleid ?: 0,
+                'uid': unit.unitid,
+                'cid': cCid,
+                'ssd': unit.ssd,
+                'fromTask' : 'vehicle'
+            }) %}
+
+
+            {% set filterUrl = createUrl('unitfilter', '', '', {
+                'c': cataloginfo.code,
+                'vid': vehicle.vehicleid ?: 0,
+                'uid': unit.unitid,
+                'did': '',
+                'cid': cCid,
+                'f': unit.filter,
+                'ssd': unit.ssd,
+                'fromTask' : 'vehicle',
+            }) %}
+
+
+            <div class="guayaquil_floatunitlist_box guayaquil_floatunitlist_250 guayaquil_floatunitlist_box"
+                 note="{{ loop.index }}">
+                <div class="guayaquil_unit_icons">
+                    {% if unit.filter != '' %}
+                        <div {{ 'id=filter data-url=' ~ filterUrl }} class="guayaquil_unit_filter">
+                            <img src="com_guayaquil/assets/images/filter.png">
+                        </div>
+                    {% endif %}
+                    <div class="unitlist-zoom"
+                         id="unitlist-zoom"
+                            {{ unit.filter != '' ? 'data-filter-url="' ~ filterUrl ~ '"' }}
+                         link="{{ linkToUnit }}"
+                         full="{{ unit.largeimageurl ~ '&iframe=true' }}"
+                         title="{{ unit.code|noSpaces }}: {{ unit.name|upper }}">
+                        <img src="com_guayaquil/assets/images/zoom_{{ config.theme }}.png">
+                    </div>
+                </div>
+                <div name="{{ unit.code|noSpaces }}" class="g_highlight"
+                     onclick="{{ unit.filter != '' ? '' : 'window.location=\''~linkToUnit~'\'' }}"
+                        {{ unit.filter != '' ? 'id=filter data-url=' ~ filterUrl }}>
+                    <table class="guayaquil_floatunitlist"
+                           onclick={{ unit.filter != '' ? '' : 'window.location=\''~linkToUnit~'\'' }} border="0">
+                        <tbody>
+                        <tr>
+                            <td class="guayaquil_floatunitlist_image_{{ config.imageSize }}">
+                                {% if unit.largeImageUrl %}
+                                    <img src="{{ unit.imageurl(config.imageSize) }}">
+                                {% else %}
+                                    <img src="{{ config.imagePlaceholder }}" style="width: {{ config.imageSize }}px; height: {{ config.imageSize }}px">
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="guayaquil_floatunitlist_title" id="unm{{ loop.index }}">
+                                <div>
+                                    {% if unit.filter != '' %}
+                                        <a href="javascript:void(0)" class="orange">
+                                            <b>{{ unit.code|noSpaces }}:</b>
+                                            {{ unit.name|upper }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ linkToUnit }}">
+                                            <b>{{ unit.code|noSpaces }}:</b>
+                                            {{ unit.name|upper }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{ block('tooltips') }}
+        {% endfor %}
+    </div>
+{% endblock %}

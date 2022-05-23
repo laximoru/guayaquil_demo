@@ -1,0 +1,19 @@
+{% use 'blocks/searchTable.twig' %}
+{% use 'blocks/selectDetailSection.twig' %}
+{{ block('searchTable') }}
+<div class="replacements-wrapper">
+    <h1>{{ 'SELECTBRAND'|t }}</h1>
+    <div>{{ 'SELECTBRANDDESC'|t }}</div>
+    {% apply spaceless %}
+        {% for section in brands %}
+            {% if section.details|length %}
+                <div class="brand-section">
+                    <a class="title" href="javascript:void(0)" data-toggle-class=".details.group-{{ loop.index0 }}">{{ section.formatted_name }}</a>
+                    <div class="details hidden group-{{ loop.index0 }}">
+                        {{ block('section') }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endapply %}
+</div>

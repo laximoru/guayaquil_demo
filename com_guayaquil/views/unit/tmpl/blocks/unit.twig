@@ -1,0 +1,17 @@
+{% use 'blocks/unitHeader.twig' %}
+{% use 'blocks/unitRemark.twig' %}
+{% use 'blocks/image.twig' %}
+{% use 'blocks/details.twig' %}
+{% use 'blocks/legend.twig' %}
+
+{% block unit %}
+    <div class="unit_page">
+        {{ block('unit_header') }}
+        <div class="unit" id="g_container">
+            {{ block('unit_remark') }}
+            {{ block('image') }}
+            {{ block('details') }}
+            {{ block('legend') }}
+        </div>
+    </div>
+{% endblock %}

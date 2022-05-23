@@ -1,0 +1,41 @@
+{% block vinFrameSearch %}
+    {% apply spaceless %}
+        <form id="findVehicle">
+            <input type="hidden" name="task" value="vehicles">
+            <input type="hidden" name="ft" value="FindVehicle">
+            <input type="hidden" name="c" value="{{ cataloginfo.attributes.code ~ '' }}">
+            <div class="g_input">
+                <input type="text" class="catalog_search_input" name="identString">
+                <input type="submit" class="btn search" name="vinSubmit" value="" id="vinFrameSubmit"/>
+            </div>
+        </form>
+        <span class="example gray">{{ 'inputvinframe'|t(vinExample) }}</span>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery(document).on('submit', '#findVehicle', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var $this = jQuery(this);
+                    var value = $this.find('input[name="identString"]').val().replace(/[^0-9A-Za-z]/g, '');
+                    var catalog = $this.find('input[name="c"]').val();
+                    var vinRegexp = new RegExp('\^[A-z0-9]{12}[0-9|o|i|q]{5}\$', 'i');
+                    var frameRegexp = new RegExp('\^[A-z0-9- ]{3,7}[0-9- ]{3,7}\$', 'i');
+
+                    if (vinRegexp.test(value) || frameRegexp.test(value)) {
+                        $this.find('.g_input').removeClass('g_input_error');
+                        value = value.replace(/[^0-9A-Za-z]/g, '');
+                        if (catalog) {
+                            window.location = 'index.php?task=vehicles&ft=FindVehicle&c=' + catalog + '&identString=$identString$&ssd='.replace('\$identString\$', value);
+                        } else {
+                            window.location = 'index.php?task=vehicles&ft=FindVehicle&c=&identString=$identString$&ssd='.replace('\$identString\$', value);
+                        }
+                    } else {
+                        $this.find('.g_input').addClass('g_input_error');
+                    }
+                })
+            })
+        </script>
+    {% endapply %}
+{% endblock %}

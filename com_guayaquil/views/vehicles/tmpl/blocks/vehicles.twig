@@ -1,0 +1,108 @@
+{% block vehicles %}
+    {% apply spaceless %}
+        <table class="guayaquil_table table collapse">
+            {% block table_header %}
+                <thead>
+                <tr class="table-header">
+                    {% for key, header in headers %}
+                        {% if columns[key] %}
+                            <th><span>{{ header|t }}</span></th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </thead>
+            {% endblock %}
+            <tbody>
+            {% for key, vehicle in vehicles %}
+                {% block table_row %}
+                    {% set attr = vehicle.attributes %}
+                    {% set link = cataloginfo.quickGroupsFeature != null ?
+                        createUrl('qgroups', '', '', {'oem': oem, 'useApplicability' : useApplicability, 'c' : vehicle.catalog, 'vid' : vehicle.vehicleid, 'ssd' : vehicle.ssd }) :
+                        createUrl('vehicle', '', '', {'oem': oem, 'useApplicability' : useApplicability, 'c' : vehicle.catalog, 'vid' : vehicle.vehicleid, 'ssd' : vehicle.ssd, 'checkQG' : '1'}) %}
+
+                    <tr onmouseout="this.className='hastooltip {{ child ? 'is-children' : 'is-parent' }}';"
+                        onmouseover="this.className='{{ child ? 'is-children' : 'is-parent' }} hastooltip over';"
+                        class="hastooltip" {{ child ? 'is-children' : 'is-parent' }}">
+                    {# <td onclick="window.location='{{ link }}"> #}
+                    {# <a href="{{ link }}" class="modification-column">{{ vehicle.brand }}</a> #}
+                    {# </td> #}
+                    {# <td onclick="window.location='{{ link }}"> #}
+                    {# <a href="{{ link }}" class="modification-column">{{ vehicle.name }}</a> #}
+                    {# </td> #}
+                    {% for key, value in headers %}
+                        {% if columns[key] %}
+                            {% set value = attr[key].value %}
+                            {% if value == null %}
+                                {% if key == 'brand' %}
+                                    {% set value = vehicle.brand %}
+                                {% else %}
+                                    {% set value = vehicle.name %}
+                                {% endif %}
+                            {% endif %}
+                            {# {% if key != 'name' and key != 'brand' or (not attr and loop.index > 1) %} #}
+                            <td {% if value|length < 30 %}onclick="window.location='{{ link }}'"{% endif %}>
+                                    <span>
+                                        <a href="{{ link }}"
+                                           class="modification-column">{{ value }}</a>
+                                        {% if value|length > 32 %}
+                                            <a href="javascript:void(0)" data-show-text="{{ 'showMore'|t }}"
+                                               data-hide-text="{{ 'hide'|t }}"
+                                               class="show-more-button">{{ 'showMore'|t }}</a>
+                                        {% endif %}
+                                    </span>
+                            </td>
+                            {# {% endif %} #}
+                        {% endif %}
+                    {% endfor %}
+                    <td class="ttp" style="display:none;">
+                        <table>
+                            <tr>
+                                <td class="tooltip-name">
+                                    {{ 'brand'|t }}:
+                                </td>
+                                <td class="tooltip-value">
+                                    {{ vehicle.brand }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip-name">
+                                    {{ 'name'|t }}:
+                                </td>
+                                <td class="tooltip-value">
+                                    {{ vehicle.name }}
+                                </td>
+                            </tr>
+                            {% for attribute in vehicle.attributes %}
+                                {% if attribute.key in columns %}
+                                    <tr>
+                                        <td class="tooltip-name">
+                                            {{ attribute.name }}:
+                                        </td>
+                                        <td class="tooltip-value">
+                                            {{ attribute.value }}:
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% for attribute in vehicle.attributes %}
+                                {% if (attribute.key) not in columns %}
+                                    <tr>
+                                        <td class="tooltip-name">
+                                            {{ attribute.name }}:
+                                        </td>
+                                        <td class="tooltip-value">
+                                            {{ attribute.value }}:
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </td>
+                    </tr>
+                {% endblock %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endapply %}
+{% endblock %}

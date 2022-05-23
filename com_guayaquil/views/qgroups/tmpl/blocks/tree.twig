@@ -1,0 +1,185 @@
+{% use 'blocks/fastSearch.twig' %}
+
+{% block oemSearch %}
+    {% apply spaceless %}
+        <div class="find">
+            <form name="findByOEM" onSubmit="checkOem(this.OEM.value, '#OEM', this.ssd.value); return false"
+                  id="findByOEM">
+
+                <div id="OEMInput" class="g_input">
+                    <input placeholder="{{ 'findOems'|t }}" class="catalog_search_input" name="oem" type="text" id="OEM"
+                           size="17" value=""/>
+                    <input type="submit" class="btn search" name="oemSubmit" value="" id="oemSubmit"/>
+                </div>
+
+                <input type="hidden" name="task" value="applicabilitydetails"/>
+                <input type="hidden" name="ssd" value="{{ vehicle.ssd ?: ssd }}"/>
+                <input type="hidden" name="vid" value="{{ vehicle.vehicleid }}"/>
+                <input type="hidden" name="c" value="{{ cataloginfo.code }}"/>
+            </form>
+        </div>
+    {% endapply %}
+{% endblock %}
+
+{% block tree %}
+    {% set vehicleLink = createUrl('vehicle', '', '', {
+    'c': vehicle.catalog ?: c,
+    'vid': vehicle.vehicleid ?: vid ?: 0,
+    'ssd': vehicle.ssd ?: ssd,
+    }) %}
+    <div id="guayaquil_toolbar" class="xboxcontent">
+            <span class="g_ToolbarButton">
+                <a href="{{ vehicleLink }}">{{ 'vehiclelink'|t }}</a>
+            </span>
+        {% if useApplicability and config.showApplicability %}
+            <div class="oem-search">
+                {{ block('oemSearch') }}
+            </div>
+        {% endif %}
+    </div>
+    <div id="qgTree" onclick="tree_toggle(arguments[0])">
+        {{ block ('fastSearch') }}
+        <div id="gqGroupsWrapper">
+            {% block groupsList %}
+                <ul class="qgContainer">
+                    {% for group in groups %}
+                        {% set count = 0 %}
+                        {% set link = createUrl('qdetails', '', '', {
+                        'c': vehicle.catalog,
+                        'gid': group.quickgroupid,
+                        'vid': vehicle.vehicleid ?: 0,
+                        'ssd': vehicle.ssd
+                        }) %}
+
+                        <li data-gid="{{ group.quickgroupid }}"
+                            class="qgNode {{ group.childGroups|length > 0 ? 'qgExpandClosed' : 'qgExpandLeaf' }}">
+                            <div class="qgExpand"></div>
+                            <div class="qgContent">
+                                <div class="group-name">
+                                    {% if group.searchable %}
+                                        <a href="javascript:void(0)" data-link="{{ link }}">{{ group.name }}</a>
+                                    {% else %}
+                                        <span>{{ group.name }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="hidden qg-aliases">
+                                    {% if group.synonyms %}
+                                        {% set synonyms = group.synonyms|split(', ') %}
+                                        {% for synonym in synonyms %}
+                                            <div class="synonym-name">{{ synonym }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="qg-detail-names hidden">
+                                    {% if group.contains %}
+                                        {% set names =  group.contains|split(',') %}
+                                        {% for name in names %}
+                                            <div class="qg-detail-name">{{ name }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if group.childGroups|length > 0 %}
+                                {% set groups = group.childGroups %}
+                                {{ block('groupsList') }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endblock %}
+        </div>
+        <div id="qgFilteredGroups"></div>
+    </div>
+    <script>
+
+        function loadGroupData(url, container, gid, cUrl) {
+            showPreloader(container);
+
+            jQuery.ajax({
+                url: url,
+                success: function (data) {
+                    var detailsContainer = jQuery(document).find('div#qgDetails');
+                    detailsContainer.html(data);
+
+                    if (data && jQuery('.response_message').length) {
+
+                        jQuery('.response_message code').remove();
+
+                        var responseBlock = jQuery('<code class="hljs xml ajax" style="white-space: pre">');
+                        var requestBlock = jQuery('.request_message');
+                        var requestData = jQuery(data).find('#responseDataBlock .request_message_raw');
+                        var responseData = jQuery(data).find('#responseDataBlock .response_message_raw');
+
+                        var parser = new DOMParser();
+                        var responseElem = parser.parseFromString(jQuery(responseData).text(), "text/xml");
+
+                        if (document.body.getAttribute('data-mark') === '0') {
+
+                            if (jQuery(responseElem).find('row[oem]').length || jQuery(responseElem).find('Detail[oem]').length) {
+                                jQuery(responseElem).find('row[oem]').attr('oem', '*****');
+                                jQuery(responseElem).find('Detail[oem]').attr('oem', '*****');
+                            }
+                        }
+
+                        var xmlText = new XMLSerializer().serializeToString(responseElem);
+                        var xml = formatXml(xmlText);
+
+
+                        jQuery(responseBlock).text(xml);
+
+                        jQuery('.response_message').append(responseBlock);
+                        var responseNode = jQuery(document).find('code.ajax')[0];
+                        hljs.highlightBlock(responseNode);
+                        jQuery(requestBlock).html(requestData.html());
+                    }
+
+                    window.history.replaceState({}, '', 'index.php?' + cUrl);
+
+                    hidePreloader();
+                }
+            });
+        }
+
+        jQuery(document).ready(function () {
+            var gqContainer = jQuery(document).find('.qgContainer');
+            gqContainer.find('li:last-child').addClass('qgIsLast');
+
+            jQuery(document).on('click', '.group-name a, .qgFilteredName a', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                var url = this.dataset.link + '&format=raw';
+                var container = jQuery(document).find('div#qgDetails');
+                var gid = getUrlParameter(url, 'gid');
+                var cUrl = insertParam('gid', gid);
+
+                loadGroupData(url, container, gid, cUrl);
+
+            });
+
+            var cGid = getUrlParameter(false, 'gid');
+            if (!cGid) {
+                return
+            }
+
+            var cUrl = insertParam('gid', cGid);
+            var group = jQuery(document).find('li.qgNode[data-gid=' + cGid + ']');
+            var url = jQuery(group).find('.qgContent > .group-name > a')[0].dataset.link;
+            var container = jQuery(document).find('div#qgDetails');
+
+            loadGroupData(url + '&format=raw', container, cGid, cUrl);
+
+            jQuery(group).parents('li').removeClass('qgExpandClosed').addClass('qgExpandOpen');
+
+            if (jQuery(group).hasClass('qgExpandClosed')) {
+                jQuery(group).removeClass('qgExpandClosed').addClass('qgExpandOpen')
+            }
+
+        });
+
+        jQuery(window).on('popstate', function () {
+            location.reload();
+        });
+    </script>
+{% endblock %}

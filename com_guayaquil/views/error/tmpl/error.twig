@@ -1,0 +1,16 @@
+<div class="">
+    {% block message %}
+        <div class="alert_message">
+            <span>{{ message }}</span>
+        </div>
+    {% endblock %}
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery(document).on('click', '[data-toggle-class]', function () {
+            var toToggle = jQuery(this).data('toggle-class');
+            jQuery(toToggle).toggleClass('hidden');
+        });
+    });
+</script>

@@ -1,0 +1,15 @@
+{% block vinSearch %}
+    {% apply spaceless %}
+        <h2>{{ 'searchbyvin'|t }}</h2>
+        <span class="example gray">{{ 'inputvin'|t(vinExample) }}</span>
+        <form name="findByVIN" onsubmit="checkVinValue(this.vin.value);return false;" id="findByVIN">
+
+            <div id="VINInput" class="g_input">
+                <input class="catalog_search_input" name="vin" type="text" id="vin" size="17" value=""/>
+                <input type="submit" class="btn search" name="vinSubmit" value="" id="vinSubmit">
+            </div>
+            <input type="hidden" name="view" value="vehicles">
+            <input type="hidden" name="ft" value="findByVIN">
+        </form>
+    {% endapply %}
+{% endblock %}

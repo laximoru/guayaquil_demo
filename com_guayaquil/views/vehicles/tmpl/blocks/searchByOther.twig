@@ -1,0 +1,63 @@
+{% block searchByOther %}
+    {% set count = 0 %}
+    {% for field in operation.fields %}
+        {% set count = count + 1 %}
+    {% endfor %}
+    {% apply spaceless %}
+        <div class="find">
+            <h2>{{ operation.description }}</h2>
+            <form name="findByCustom" method="GET"
+                  onsubmit="return checkCustomForm(this, jQuery('input [type=submit]'));">
+                <input type="hidden" name="task" value="vehicles">
+
+                <table border="0">
+                    <tbody>
+                    {% if count > 1 %}
+                        <tr>
+                            {% for field in operation.fields %}
+                                <th align="left"><span>{{ field.description }}</span></th>
+                                <th></th>
+                            {% endfor %}
+                        </tr>
+                        <tr class="custom-fields">
+                            {% for field in operation.fields %}
+                                <td>
+                                    <div class="g_input">
+                                        <input type="text" name="data[{{ field.name|t }}]" value=""
+                                               class="catalog_search_input" data-regexp="^{{ field.pattern|t }}$">
+                                    </div>
+                                </td>
+                                {% if loop.index < 2 %}
+                                    <td>-</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td colspan="99" align="right" class="submit">
+                                <input type="submit" class="btn search" value="">
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for field in operation.fields %}
+                            <tr>
+                                <td><span>{{ field.description|t }}</span></td>
+                                <td>
+                                    <div class="g_input">
+                                        <input type="text" name="data[{{ field.name|t }}]" value=""
+                                               class="catalog_search_input other_search"
+                                               data-regexp="^{{ field.pattern|t }}$">
+                                        <input type="submit" class="btn search" value="">
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+
+                <input type="hidden" name="ft" value="execCustomOperation">
+                <input type="hidden" name="c" value="{{ cataloginfo.code|t }}">
+                <input type="hidden" name="operation" value="{{ operation.name }}">
+
+            </form>
+        </div>
+    {% endapply %}
+{% endblock %}

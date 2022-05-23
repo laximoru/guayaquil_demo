@@ -1,0 +1,12 @@
+{% use 'blocks/oemSearch.twig' %}
+{% use 'blocks/unit.twig' %}
+{% use 'blocks/js.twig' %}
+{% apply spaceless -%}
+    {% if useApplicability and config.showApplicability %}
+        {{ block('oemSearch') }}
+    {% endif %}
+
+    {{ block('unit') }}
+
+    {{ block('js') }}
+{% endapply %}

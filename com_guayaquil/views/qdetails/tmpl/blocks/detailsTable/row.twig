@@ -1,0 +1,56 @@
+{% block row %}
+
+    {% set filterUrl = createUrl('detailfilter', '', '', {
+    'c':  vehicle.catalog,
+    'cid': detail.cid,
+    'vid': vehicle.vehicleid ?: 0,
+    'gid': gid,
+    'uid': unit.unitid,
+    'cid': category.categoryid,
+    'f': detail.filter,
+    'ssd': detail.ssd,
+    'fromTask' : 'qdetails'
+    }) %}
+
+    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode }) %}
+
+    <tr class="g_collapsed {{ oem == detail.oem|replace({' ': '', '-': ''}) and oem ? 'g_highlight_lock' : '' }}
+        {{ anotherFromUnit == 'true' ? 'anotherDetail hidden' : '' }}"
+        name="{{ detail.codeonimage }}"
+        id="d_{{ loop.index }}"
+            {{ anotherFromUnit == 'true' ? 'data-unit=' ~ unit.unitid : '' }}>
+        <td name="c_pnc" class="g_ttd" style="display:none;">{{ detail.codeonimage }}</td>
+        <td>
+            {% if group|length > 1 %}
+                <span class="grey">{{ 'detailvariant'|t ~ (loop.index) ~ ': ' }}</span>
+            {% endif %}
+        </td>
+        <td name="c_oem" class="g_ttd">{% if user.isLoggedIn or config.showOemsToGuest %}<a href="{{ marketUrl ? marketUrl : 'javascript:void(0)' }}" {% if config.linkTarget %}target="{{ config.linkTarget }}"{% endif %}>{{ detail.oem }}</a>{% else %}<a href="javascript:void(0)" class="logging">*****</a>{% endif %}
+        <td name="c_name" class="g_ttd">
+            {% set name = (detail.name and detail.name != '') ? detail.name : 'unitnotspecifed'|t %}
+            {% if detail.filter %}
+                <a id="filter" data-url="{{ filterUrl }}"
+                   href="javascript:void(0)">
+                    {{ name }} {{ 'needconfirm'|t }}
+                </a>
+            {% else %}
+                {{ name }}
+            {% endif %}
+        </td>
+        <td name="c_price" style="display:none;">-</td>
+        <td name="c_tooltip" class="g_rowdatahint">
+            <div class="info"></div>
+        </td>
+        <td name="c_flag" class="g_ttd" style="display:none;"></td>
+        <td name="c_availability" class="g_ttd" style="display:none;"></td>
+        <td name="c_note" style="display:none;" class="g_ttd">
+            {% for attribute in detail.attributes %}
+                <div class="item">
+                    <span class="name">{{ attribute.name }}</span>
+                    <span class="value">{{ attribute.value }}</span>
+                </div>
+            {% endfor %}
+
+        </td>
+    </tr>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% block js %}
+    <script type="text/javascript">
+
+        function ProcessFilters(skip) {
+            if (skip === true) {
+                top.location.href = '{{ skipUrl|e('js') }}';
+
+                return;
+            }
+            var redirectLink;
+            var currentSsd = '{{ from['ssd'] }}';
+            var currentGid = '{{ from['gid'] ? from['gid'] : '' }}';
+            var options = Array.prototype.slice.call(document.querySelectorAll('select[name="SELECT"] option:not([value="null"])'));
+            var selectedOptions = options.filter(function (option) {return !!option.selected});
+            var confirmUrl = document.querySelector('input[name="confirmUrl"]').value || '';
+
+            selectedOptions.forEach(function (option) {currentSsd += option.value});
+
+            redirectLink = selectedOptions.length ? confirmUrl.replace('$ssd$', currentSsd) : window.location.href;
+            if (currentGid && selectedOptions.length) {
+                var node = window.parent.document.querySelector('[data-gid="' + currentGid + '"] > .qgContent .group-name a');
+
+                setTimeout(function () {
+                    node.dataset.link = redirectLink;
+                    node.click();
+                    window.parent.document.querySelector('#cboxClose').click();
+                }, 500);
+
+                return;
+            }
+
+            if (!selectedOptions.length) {
+                top.location.reload();
+                return;
+            }
+
+            top.location.href = redirectLink;
+        }
+
+        function Resize_Box() {
+            var x = jQuery('body').width();
+            var y = jQuery('body').height();
+
+            var height = y + 20;
+            var width =  x + 20;
+            parent.jQuery.fn.colorbox.resize({
+                innerWidth: width,
+                innerHeight: height
+            });
+        }
+        jQuery(document).ready(function () {
+            Resize_Box();
+
+            jQuery('.response-data-link').on('afterToggle', function () {
+                Resize_Box();
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% use 'blocks/searchTable.twig' %}
+{{ block('searchTable') }}
+<h1>{{ 'SELECTBRAND'|t }}</h1>
+<div class="example">{{ 'SELECTBRANDDESC'|t }}</div>
+<table class="table collapse vehicle-modifications">
+    <thead>
+    <tr>
+        <th>{{ 'columnvehiclebrand'|t }}</th>
+        <th>{{ 'columndetailoem'|t }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for original in originals %}
+        {% set link = createUrl('vehicles', '', '', {
+            'ft': 'findByOEM',
+            'oem': oem,
+            'c'  : original.code,
+            'brand': original.brand,
+            'ssd': ''
+        }) %}
+        <tr onclick="window.location='{{ link }}'" onmouseout="this.className='hastooltip is-parent';" onmouseover="this.className='is-parent hastooltip over';" class="hastooltip is-parent">
+            <td>
+                <a href="{{ link }}">
+                    {{ catalogNames[original.code] }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ link }}">
+                    {{ oem }}
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

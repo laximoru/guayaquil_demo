@@ -1,0 +1,9 @@
+{% use 'blocks/tree.twig' %}
+{% use 'blocks/details.twig' %}
+
+<h1>{{ 'carname'|t(vehicle.brand ~ ' ' ~ vehicle.name) }}</h1>
+<div id="pagecontent" class="qgroups-wrapper">
+    {{ block('tree') }}
+    {{ block('details') }}
+</div>
+

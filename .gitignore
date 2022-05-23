@@ -1,0 +1,9 @@
+syntax: glob
+vendor/
+.idea/
+revision.json
+com_guayaquil/cache
+com_guayaquil/bin
+composer.lock
+composer.phar
+config.json

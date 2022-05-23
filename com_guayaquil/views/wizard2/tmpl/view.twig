@@ -1,0 +1,54 @@
+{% block header %}
+    <h1>{{ 'search by wizard'|t }}</h1>
+{% endblock %}
+{% block wizard2 %}
+    {% set btn = 0 %}
+    <table>
+        {% for field in wizard %}
+            {% set btn = field.allowListVehicles %}
+            <tr class="guayaquil_SelectedRow">
+                <td><label for="select-{{ field.name }}">{{ field.name }}</label></td>
+                <td>
+                    {% if field.automatic %}
+                        <select class="catalog_search_input select" disabled name="select-{{ field.name }}">
+                            <option value="">{{ field.value }}</option>
+                        </select>
+                    {% elseif field.determined %}
+                        <select disabled class="catalog_search_input select" name="select-{{ field.name }}">
+                            <option value="">{{ field.value }}</option>
+                        </select>
+                        <a href="{{ createUrl('wizard2', '', '', {'c': c, 'ssd': field.ssd ? field.ssd : ''  }) }}">
+                            <img src="com_guayaquil/assets/images/remove.png" alt="">
+                        </a>
+                    {% else %}
+                    <select class="catalog_search_input select" name="select-{{ field.name }}"
+                            onchange="openWizard(this.options[this.selectedIndex].value, '{{ cataloginfo.code }}'); return false;">
+                        <option value="null"></option>
+                        {% for value in field.options %}
+                            <option value="{{ value.key }}">{{value.value }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="control_button">
+        {% if btn  %}
+            <a class="gWizardVehicleLink" href="{{ createUrl('vehicles', '', '', {'ft': 'findByWizard2', 'c': cataloginfo.code, 'ssd': ssd }) }}">
+                {{ 'list vehicles'|t }}
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+<script type="text/javascript">
+    jQuery(window).bind('pageshow', function() {
+        var selects = jQuery(document).find('tr.guayaquil_SelectedRow td select').not('[disabled]');
+        selects.each(function (i, j) {
+            var select = jQuery(j);
+            var defaultOption = select.find('option[value=null]');
+            defaultOption.prop('selected', true);
+        });
+    });
+</script>

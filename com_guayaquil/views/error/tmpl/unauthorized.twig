@@ -1,0 +1,24 @@
+<div class="auth-page-wrapper">
+    <h3>{{ 'GET_LOGIN'|t|raw }}</h3>
+    <div id="login-form-content">
+        <div class="login-container">
+            {% apply spaceless %}
+                <form action="{{ createUrl('login', 'login') }}" class="login-form with-validate"
+                      method="post">
+                    <div>
+                        <input type="text" class="required" placeholder="{{ 'USERNAME'|t }}"
+                               name="user[login]">
+                    </div>
+                    <div>
+                        <input type="password" class="required" placeholder="{{ 'PASSWORD'|t }}"
+                               name="user[password]">
+                    </div>
+                    <div>
+                        <input type="hidden" name="user[backurl]" value="">
+                        <button type="submit" style="width: 100%" class="button">{{ 'LOGIN'|t }}</button>
+                    </div>
+                </form>
+            {% endapply %}
+        </div>
+    </div>
+</div>

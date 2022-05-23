@@ -1,0 +1,11 @@
+{% block fastSearch %}
+    {% apply spaceless %}
+        <input type="text" maxlength="20" size="50" id="qgsearchinput" placeholder="{{ 'enter_group_name'|t }}"
+               title="{{ 'enter_group_name'|t }}"
+               onkeyup="QuickGroups.Search(this.value);" class="catalog_search_input">
+        <input type="button" class="btn search">
+        <input type="button" class="btn reset-button" value="x"
+               onclick="jQuery('#qgsearchinput').attr('value', ''); QuickGroups.Search('');">
+    {% endapply %}
+
+{% endblock %}

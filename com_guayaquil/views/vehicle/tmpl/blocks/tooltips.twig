@@ -1,0 +1,10 @@
+{% block tooltips %}
+        <div style="display: none;" id="utt{{ loop.index }}">
+            {% if unit.attribute %}
+                {% for attribute in unit.attributes %}
+                    <b>{{ attribute.name|capitalize }}: </b>
+                    {{ attribute.value|replace({'\n': '<br />'}) }};
+                {% endfor %}
+            {% endif %}
+        </div>
+{% endblock %}

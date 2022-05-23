@@ -1,0 +1,60 @@
+{% use 'blocks/js.twig' %}
+
+<html>
+<head>
+</head>
+
+<body>
+<div class="unit_filter">
+    <div class="page_header">
+        <h2>{{ 'refineparams'|t }}</h2>
+        <span>{{ 'selectfromdropdown'|t }}:</span>
+    </div>
+    <div class="filter_form">
+        <form onsubmit="ProcessFilters(false); return false;" id="guayaquilFilterForm">
+            {% for filter in filter_data.fields %}
+                {% if filter.type == 'list' %}
+                    <div class="unit-filter-field-wrapper">
+                        <div class="filter_label_wrapper">
+                            {{ filter.name }}
+                        </div>
+                        <div class="filter_select_wrapper">
+                            <select name="SELECT" class="g_filter_box g_filter select" name="ssd">
+                                <option value="null"></option>
+                                {% for attr in filter.values %}
+                                    <option value="{{ attr.ssdmodification }}">{{ attr.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="clear_both"></div>
+            <div class="controls">
+                {% set skipUrl = createUrl('unit', '', '', {
+                    'c': from['c'] ,
+                    'vid': from['vid'],
+                    'cid': from['cid'],
+                    'uid': unit.unitid,
+                    'ssd': from['ssd'],
+                    'fromTask': 'vehicle',
+                    'skipped' : true
+                }) %}
+
+                {% set confirmUrl = createUrl(fromTask, '', '', {
+                    'c': from['c'] ,
+                    'vid': from['vid'],
+                    'gid': from['gid'],
+                    'cid': from['cid'],
+                    'ssd': '$ssd$'
+                }) %}
+                <a href="javascript:void(0)" onclick="ProcessFilters(true)" class="button">{{ 'skipselection'|t }}</a>
+                <input type="hidden" name="confirmUrl" value="{{ confirmUrl }}">
+                <input type="submit" class="button" value="{{ 'confirm'|t }}">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+{{ block('js') }}

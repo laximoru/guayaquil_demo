@@ -1,0 +1,153 @@
+{% use 'findOem.twig' %}
+{% apply spaceless -%}
+    <form name="findByOEM" id="findByOEM" data-url="{{ createUrl('aftermarket', 'findOem', []) }}">
+        <div class="am-header">
+            <h2>AfterMarket</h2>
+        </div>
+        <div class="am-input-wrapper">
+            <div class="g_input">
+                <label for="brand">Brand </label>
+                <input name="brand" type="text" id="brand" size="20" value="{{ brand }}"/>
+            </div>
+            <div class="g_input">
+                <label for="oem">OEM </label>
+                <input name="oem" type="text" id="oem" size="20" value="{{ oem }}"/>
+            </div>
+        </div>
+        <div>
+            <div class="am-checkbox-wrapper">
+                <div class="am-options-header">
+                    <span>Search options:</span>
+                </div>
+                <div class="am-checkbox">
+                    <input name="options[]" value="crosses" id=crosses" type="checkbox" {{ 'crosses' in options ? 'checked' : '' }}/>
+                    <label for="crosses"></label>
+                    <div class="am-checkbox-label">Crosses</div>
+                </div>
+
+                <div class="am-checkbox">
+                    <input name="options[]" value="weights" id=weights" type="checkbox" {{ 'weights' in options ? 'checked' : '' }}/>
+                    <label for="weights"></label>
+                    <div class="am-checkbox-label">Weights</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="options[]" value="names" id=names" type="checkbox" {{ 'names' in options ? 'checked' : '' }}/>
+                    <label for="crosses"></label>
+                    <div class="am-checkbox-label">Names</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="options[]" value="properties" id="properties" type="checkbox" {{ 'properties' in options ? 'checked' : '' }}/>
+                    <label for="properties"></label>
+                    <div class="am-checkbox-label">Properties</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="options[]" value="images" id=images" type="checkbox" {{ 'images' in options ? 'checked' : '' }}/>
+                    <label for="images"></label>
+                    <div class="am-checkbox-label">Images</div>
+                </div>
+            </div>
+            <div class="am-checkbox-wrapper">
+                <div class="am-options-header">
+                    <span>Replacement types:</span>
+                </div>
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="synonym" id=synonym" type="checkbox" {{ 'synonym' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="synonym"></label>
+                    <div class="am-checkbox-label">Synonym</div>
+                </div>
+
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="PartOfTheWhole" id=PartOfTheWhole" type="checkbox" {{ 'PartOfTheWhole' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="PartOfTheWhole"></label>
+                    <div class="am-checkbox-label">PartOfTheWhole</div>
+                </div>
+
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="Replacement" id="Replacement" type="checkbox" {{ 'Replacement' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="Replacement"></label>
+                    <div class="am-checkbox-label">Replacement</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="Duplicate" id="Duplicate" type="checkbox" {{ 'Duplicate' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="Duplicate"></label>
+                    <div class="am-checkbox-label">Duplicate</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="Tuning" id=Tuning" type="checkbox" {{ 'Tuning' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="Tuning"></label>
+                    <div class="am-checkbox-label">Tuning</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="Bidirectional" id=Bidirectional" type="checkbox" {{ 'Bidirectional' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="Bidirectional"></label>
+                    <div class="am-checkbox-label">Bidirectional</div>
+                </div>
+                <div class="am-checkbox">
+                    <input name="replacementtypes[]" value="code" id="code" type="checkbox" {{ 'code' in replacementtypes ? 'checked' : '' }}/>
+                    <label for="code"></label>
+                    <div class="am-checkbox-label">Code</div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="Locale" value="ru_RU">
+        <input type="submit" class="button" name="oemSubmit" id="oemSubmit" value="Send"/>
+    </form>
+    <div id="content" style="min-height: 400px;margin-top: 20px;">
+        {% if details %}
+            {{ block('details_result') }}
+        {% endif %}
+    </div>
+{%- endapply %}
+
+<script type="text/javascript">
+
+</script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        window.onpopstate = function() {
+            window.location.reload();
+        };
+
+        jQuery(document).off('submit', 'form[name="findByOEM"]');
+        jQuery(document).on('submit', 'form[name="findByOEM"]', function (event) {
+
+            event.stopPropagation();
+            event.preventDefault();
+
+            showPreloader();
+
+            let url = jQuery(this).data('url');
+            let params = jQuery(this).serialize();
+
+            jQuery.ajax({
+                url     : url + '&' + params,
+                success : function (data) {
+                    let detailsContainer = jQuery(document).find('.content-wrapper');
+                    if (data) {
+                        const temp     = document.createElement('div');
+                        temp.innerHTML = data;
+                        const body     = temp.querySelector('.content-wrapper');
+
+                        detailsContainer.html(body);
+                    }
+
+                    window.history.pushState([], '', url + '&' + params);
+                    hidePreloader();
+
+                    hljs.configure({
+                        tabReplace: '    ',
+                        useBR: true
+                    });
+                    initServiceMessages();
+
+                    jQuery('.response_message code').each(function (i, block) {
+                        highLightXml(block);
+                        hljs.highlightBlock(block);
+                        jQuery(block).css('white-space', 'pre');
+                    });
+                }
+            });
+        });
+    })
+</script>

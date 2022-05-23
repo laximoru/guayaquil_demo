@@ -1,0 +1,17 @@
+<table class="table collapse" style="width: 100%;">
+    <tr>
+            <th>Name</th>
+            <th>Aliases</th>
+            <th>isOriginal</th>
+    </tr>
+    <tr>
+            <td>{{ manufacturerInfo.name }}</td>
+            <td>
+                {% for alias in manufacturerInfo.Aliases %}
+                    {% if loop.index0 > 0%},{% endif %}
+                    {{ alias }}
+                {% endfor %}
+            </td>
+            <td>{{ manufacturerInfo.isOriginal }}</td>
+    </tr>
+</table>

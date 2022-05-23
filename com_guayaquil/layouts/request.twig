@@ -1,0 +1,23 @@
+{% if lastExecutionCommand %}
+    <a href="javascript:void(0)" class="response-data-link"
+       data-toggle-class=".request_message" data-hide-text="">{{ 'REQUEST_DATA'|t }}</a>
+    <a href="javascript:void(0)" class="response-data-link"
+       data-toggle-class=".response_message">{{ 'RESPONSE_DATA'|t }}</a>
+    <div class="request_message {% if not requestOnly %}hidden{% endif %}">
+        <div class="request_time">
+            {{ 'REQUEST_TIME'|t(lastExecutionTime|round(4)) }}
+        </div>
+        {% for request in lastExecutionCommand %}
+            <div>
+                <b>{{ loop.index }}:</b> {{ request }}
+            </div>
+        {% endfor %}
+    </div>
+    {% if lastExecutionResponse %}
+        {%- apply spaceless -%}
+            <div class="response_message hidden">
+                <code class="hljs xml">{{ lastExecutionResponse }}</code>
+            </div>
+        {% endapply %}
+    {% endif %}
+{% endif %}

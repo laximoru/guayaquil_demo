@@ -1,0 +1,157 @@
+{% block section %}
+    {% for name, details in section.details %}
+        <div class="brand-{{ loop.parent.loop.index0 }}" data-url="{{ createUrl('vehicles', 'checkDetailApplicability') }}"
+             data-details="{{ details|json_encode }}" data-name="{{ name }}" data-catalog="{{ catalogsCodes[name] }}"
+             data-detail-url="{{ createUrl('vehicles', '', '', {'ft': 'findByOEM', 'brand': name, 'oem': '$1', 'c': catalogsCodes[name]}) }}">
+            <div class="detail-name detail-name-{{ loop.parent.loop.index0 }}">{{ name }}</div>
+            <div class="applicable-details"></div>
+            <a class="button show-more-details hidden">{{ 'SHOW_MORE_DETAILS_IN'|t(name) }}</a>
+        </div>
+    {% endfor %}
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function (evt) {
+            var applicabilitySections{{ loop.index0 }} = [];
+
+            var brandList = Array.prototype.slice.call(document.querySelectorAll('.brand-{{ loop.index0 }}'));
+
+            var ApplicabilitySection = function () {
+                return {
+                    name: '',
+                    details: [],
+                    shownDetails: [],
+                    showMoreButton: null,
+                    node: null,
+                    setData: function (brand) {
+                        var context  = this;
+
+                        this.node           = brand;
+                        this.details        = JSON.parse(brand.dataset.details);
+                        this.name           = brand.dataset.name;
+                        this.showMoreButton = this.node.querySelector('.show-more-details');
+
+                        context.watch('shownDetails', this.render);
+
+                        this.watchArrayPush(this.shownDetails, context.render);
+
+                        this.details.forEach(function (detail, index) {
+                            Object.keys(detail).forEach(function (key) {
+                                detail.watch(key, context.render)
+                            });
+                        });
+                        this.click();
+                    },
+                    watchArrayPush: function(array, callback) {
+                        var context = this;
+                        Object.defineProperty(this.shownDetails, 'push', {
+                            enumerable: false,
+                            configurable: false,
+                            writable: false,
+                            value: function () {
+                                for (var i = 0, n = this.length, l = arguments.length; i < l; i++, n++) {
+                                    callback(this, n, this[n] = arguments[i], context);
+                                }
+                                return n;
+                            }
+                        });
+                    },
+                    click: function() {
+                        var context = this;
+                        var clickCallback = function (evt) {
+                            context.addDetails().then(function () {
+                                context.removeListeners(context.node.querySelector('.detail-name-{{ loop.index0 }}'));
+                                if (context.details.length) {
+                                    context.showMoreButton.classList.remove('hidden');
+                                } else {
+                                    context.showMoreButton.classList.add('hidden')
+                                }
+                            });
+                        };
+
+                        this.node.querySelector('.detail-name-{{ loop.index0 }}').addEventListener('click', clickCallback);
+                        this.showMoreButton.addEventListener('click', clickCallback);
+                    },
+                    removeListeners: function (el) {
+                        var elClone = el.cloneNode(true);
+
+                        el.parentNode.replaceChild(elClone, el);
+                    },
+                    createNotFoundStub: function() {
+                        return {
+                            oem: '',
+                            name: '{{ 'NOTHING_FOUND'|t }}',
+                            hideUrl: true
+                        }
+                    },
+                    addDetails: function() {
+                        var context = this;
+                        return new Promise(function (resolve, rej) {
+                            showPreloader();
+                            jQuery.ajax(context.node.dataset.url, {
+                                type: 'post',
+                                dataType: 'json',
+                                data: {details: JSON.stringify(context.details), 'catalog': context.node.dataset.catalog },
+                                complete: function (data) {
+                                    try {
+                                        var res = JSON.parse(data.responseText);
+
+                                        if (!res.detailsToShow.length) {
+                                            if (!context.shownDetails.length) {
+                                                context.shownDetails.push(context.createNotFoundStub());
+                                            }
+                                            context.showMoreButton.classList.add('hidden');
+                                        } else {
+                                            res.detailsToShow.forEach(function (detail) {
+                                                context.shownDetails.push(detail);
+                                            });
+                                        }
+
+                                        context.removeDetails(res.detailsChecked);
+
+                                        hidePreloader();
+                                        resolve();
+                                    } catch (e) {
+                                        console.error(e);
+                                        console.error(data);
+                                        rej(data)
+                                    }
+                                }
+                            })
+                        })
+
+                    },
+                    removeDetails: function(detailsChecked) {
+                        var context = this;
+
+                        detailsChecked.forEach(function (detail) {
+                            context.details.forEach(function (det, key) {
+                                if (det.detail_id === detail.detail_id) {
+                                    context.details.splice(key, 1)
+                                }
+                            });
+                        });
+                    },
+                    render: function (value, v, c, context) {
+                        var list = context.node.querySelector('.applicable-details');
+                        list.innerHTML = '';
+                        var html = ['<ul>'];
+                        value.forEach(function (detail) {
+                            html.push('<li class="' + (detail.hideUrl ? 'not-found' : '') + '"><a href="' + (detail.hideUrl ? 'javascript:void(0)' : context.node.dataset.detailUrl.replace('$1', detail.oem)) + '" class="black">' + detail.oem + ' ' + detail.name + '</a></li>')
+                        });
+                        html.push('</ul>');
+
+                        list.innerHTML = html.join('');
+                    }
+                }
+            };
+
+
+            brandList.forEach(function (brand) {
+                var applicabilitySection = new ApplicabilitySection();
+                applicabilitySection.setData(brand);
+
+                applicabilitySections{{ loop.index0 }}.push(applicabilitySection);
+            })
+        })
+    </script>
+{% endblock %}

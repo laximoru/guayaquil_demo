@@ -1,0 +1,15 @@
+{
+  "autoload": {
+    "psr-4": {
+      "guayaquil\\": "com_guayaquil/"
+    }
+  },
+  "require-dev": {
+  },
+  "require": {
+    "twig/twig": "^3.0",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "laximoru/guayaquillib": "*"
+  }
+}

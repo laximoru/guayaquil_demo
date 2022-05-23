@@ -1,0 +1,31 @@
+{% use 'blocks/searchTable.twig' %}
+
+{{ block('searchTable') }}
+
+<div class="catalogs flex">
+    {% set sliced = 0 %}
+    {% for i in 1..columns %}
+        <div class="catalogs-search" style="flex-basis: {{ 100 / columns }}%">
+            {% set currentColumn = loop.index - 1 %}
+
+            <table class="table collapse guayaquil_tablecatalog border-none" border="0">
+                <tbody>
+                {% set cCatalogs = catalogs|slice(0, elemCount)|slice(sliced, elemInRow + (currentColumn < rest ? 1 : 0)) %}
+                {% for catalog in cCatalogs %}
+                    {% set catalogLink = url(catalog) %}
+
+                    <tr onmouseout="this.classList.remove('over');" onmouseover="this.classList.add('over');"
+                        onclick="window.location='{{ catalogLink }}'" class="{{ config.showCatalogsLetters ? '' : 'bordered' }}">
+                        <td>{% if config.showCatalogsLetters %}<span class="gray letter">{{ catalog.name|first != cCatalogs[loop.index0 - 1].name|first ? catalog.name|first : '' }}</span>{% endif %}</td>
+                        <td valign="center">
+                            <a class="guayaquil_tablecatalog"
+                               href="{{ catalogLink }}">{{ catalog.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% set sliced = sliced + elemInRow + (currentColumn < rest ? 1 : 0) %}
+        </div>
+    {% endfor %}
+</div>
