@@ -62,7 +62,7 @@ class Language
     public function getLocalization()
     {
         if (!isset($_COOKIE['interface_language'])) {
-            $this->setLocalization();
+            $this->setLocalization($this->defaultlanguageCode);
             return $this->defaultlanguageCode;
         }
 

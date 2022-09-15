@@ -6,6 +6,7 @@ use Exception;
 use guayaquil\Config;
 use guayaquil\View;
 use GuayaquilLib\Am;
+use GuayaquilLib\exceptions\StandardPartException;
 use GuayaquilLib\objects\am\PartCrossObject;
 use GuayaquilLib\objects\am\PartObject;
 use GuayaquilLib\objects\oem\CatalogObject;
@@ -108,14 +109,12 @@ class VehiclesHtml extends View
                         $this->catalogsCodes[$catalog->getBrand()] = $catalog->getCode();
                         $this->catalogNames[$catalog->getCode()] = $catalog->getName();
                     }
+                    $amManufacturers = $this->getAmService()->listManufacturer();
 
                     try {
                         $catalogs = $this->getOemService()->findCatalogsByOem($oem);
-                    } catch (Exception $ex) {
-                        if (strpos($ex->getMessage(), 'E_STANDARD_PART_SEARCH') !== false) {
-                            throw new Exception($this->getLanguage()->t('E_STANDARD_PART_SEARCH'));
-                        }
-                        throw $ex;
+                    } catch (StandardPartException $ex) {
+                        throw new Exception($this->getLanguage()->t('E_STANDARD_PART_SEARCH'));
                     }
 
                     $this->searchBy = $findType;
@@ -333,10 +332,20 @@ class VehiclesHtml extends View
      */
     private function getDetailBrands(array $details)
     {
+        $amManufacturers = $this->getAmService()->listManufacturer();
         $catalogs = $this->getOemService()->listCatalogs();
-        $catalogNames = array_map(function (CatalogObject $catalog) {
-            return $catalog->getBrand();
-        }, $catalogs->getCatalogs());
+        $catalogNames = [];
+        foreach ($catalogs->getCatalogs() as $catalog) {
+            $catalogNames[$catalog->getBrand()] = $catalog->getBrand();
+            foreach ($amManufacturers->getManufacturers() as $manufacturer) {
+                foreach ($manufacturer->getAliases() as $manufacturerAlias) {
+                    if ($manufacturerAlias == $catalog->getBrand()) {
+                        $catalogNames[$manufacturer->getName()] = $manufacturer->getName();
+                        break;
+                    }
+                }
+            }
+        }
 
         $replacements = [];
 
