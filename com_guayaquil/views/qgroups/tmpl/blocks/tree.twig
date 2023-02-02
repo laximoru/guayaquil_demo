@@ -21,11 +21,32 @@
     {% endapply %}
 {% endblock %}
 
+{% block nameSearch %}
+    {% apply spaceless %}
+        <div class="find">
+            <form name="findByName" onSubmit="return checkName(this.partName)"
+                  id="findByName">
+                <div id="NameInput" class="g_input">
+                    <input placeholder="{{ 'findpartsByName'|t }}" class="catalog_search_input" name="partName"
+                           type="text"
+                           id="partName" size="50" value="{{ partName|escape }}"/>
+                    <input type="submit" class="btn search" name="oemSubmit" value="" id="oemSubmit"/>
+                </div>
+
+                <input type="hidden" name="task" value="fulltextSearch"/>
+                <input type="hidden" name="ssd" value="{{ vehicle.ssd|escape ?: ssd|escape }}"/>
+                <input type="hidden" name="vid" value="{{ vehicle.vehicleid|escape }}"/>
+                <input type="hidden" name="c" value="{{ cataloginfo.code|escape }}"/>
+            </form>
+        </div>
+    {% endapply %}
+{% endblock %}
+
 {% block tree %}
     {% set vehicleLink = createUrl('vehicle', '', '', {
-    'c': vehicle.catalog ?: c,
-    'vid': vehicle.vehicleid ?: vid ?: 0,
-    'ssd': vehicle.ssd ?: ssd,
+        'c': vehicle.catalog ?: c,
+        'vid': vehicle.vehicleid ?: vid ?: 0,
+        'ssd': vehicle.ssd ?: ssd,
     }) %}
     <div id="guayaquil_toolbar" class="xboxcontent">
             <span class="g_ToolbarButton">
@@ -34,6 +55,11 @@
         {% if useApplicability and config.showApplicability %}
             <div class="oem-search">
                 {{ block('oemSearch') }}
+            </div>
+        {% endif %}
+        {% if usePartByNameSearch and config.showNameSearch %}
+            <div class="oem-search">
+                {{ block('nameSearch') }}
             </div>
         {% endif %}
     </div>
@@ -45,10 +71,10 @@
                     {% for group in groups %}
                         {% set count = 0 %}
                         {% set link = createUrl('qdetails', '', '', {
-                        'c': vehicle.catalog,
-                        'gid': group.quickgroupid,
-                        'vid': vehicle.vehicleid ?: 0,
-                        'ssd': vehicle.ssd
+                            'c': vehicle.catalog,
+                            'gid': group.quickgroupid,
+                            'vid': vehicle.vehicleid ?: 0,
+                            'ssd': vehicle.ssd
                         }) %}
 
                         <li data-gid="{{ group.quickgroupid }}"

@@ -22,6 +22,11 @@
                         {{ block('oemSearch') }}
                     </div>
                 {% endif %}
+                {% if usePartByNameSearch and config.showNameSearch %}
+                    <div class="oem-search">
+                        {{ block('nameSearch') }}
+                    </div>
+                {% endif %}
             </div>
         {% endblock %}
 

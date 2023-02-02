@@ -17,6 +17,7 @@ use GuayaquilLib\Oem;
  * @property string oem
  * @property int useApplicability
  * @property CatalogObject $cataloginfo
+ * @property bool $usePartByNameSearch
  */
 class QgroupsHtml extends View
 {
@@ -63,7 +64,6 @@ class QgroupsHtml extends View
 //
 //            $this->redirect($vehicleLink);
 //        }
-
         $this->pathway->addItem($catalogInfo->getName(), $this->createUrl2($catalogInfo));
         $this->pathway->addItem($vehicle->getBrand() . ' ' . $vehicle->getName());
 
@@ -73,6 +73,7 @@ class QgroupsHtml extends View
         $this->ssd = $this->input->getString('ssd', '');
         $this->oem = $oem;
         $this->useApplicability = $catalogInfo->getDetailApplicabilityFeature() != null;
+        $this->usePartByNameSearch = $catalogInfo->getPartByNameSearchFeature() != null;
 
         parent::Display($tpl, $view);
     }

@@ -69,6 +69,7 @@ class VehicleHtml extends View
         $this->cCid = $this->input->getString('cid', '');
         $this->firstCategory = !empty($firstCategory->categoryid) ? $firstCategory->categoryid : 0;
         $this->useApplicability = $catalogInfo ? $catalogInfo->getDetailApplicabilityFeature() != null : 0;
+        $this->usePartByNameSearch = $catalogInfo ? $catalogInfo->getPartByNameSearchFeature() != null : 0;
         $this->partsList = isset($data[4]) ? $data[4]->oemParts : null;
         $this->totalParts = isset($data[4]) ? $this->total = count($data[4]->oemParts) : 0;
         $vehicleHtml = '\guayaquil\views\vehicle\VehicleHtml';

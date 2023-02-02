@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9402b283218119e5a978735d703b969e",
+    "content-hash": "625150f0724b5022e89e066280b1101a",
     "packages": [
         {
             "name": "laximoru/guayaquillib",
-            "version": "v3.0.6",
+            "version": "v3.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laximoru/guayaquillib.git",
-                "reference": "a8253ea5ee4e8feac0bab1240519f206214388bf"
+                "reference": "db90520b695ae51b9b5992161402f8ab8954154b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laximoru/guayaquillib/zipball/a8253ea5ee4e8feac0bab1240519f206214388bf",
-                "reference": "a8253ea5ee4e8feac0bab1240519f206214388bf",
+                "url": "https://api.github.com/repos/laximoru/guayaquillib/zipball/db90520b695ae51b9b5992161402f8ab8954154b",
+                "reference": "db90520b695ae51b9b5992161402f8ab8954154b",
                 "shasum": ""
             },
             "require": {
@@ -54,9 +54,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laximoru/guayaquillib/issues",
-                "source": "https://github.com/laximoru/guayaquillib/tree/v3.0.6"
+                "source": "https://github.com/laximoru/guayaquillib/tree/v3.0.8"
             },
-            "time": "2022-10-14T03:59:06+00:00"
+            "time": "2023-01-30T05:43:11+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -225,16 +225,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58"
+                "reference": "3ffcf4b7d890770466da3b2666f82ac054e7ec72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c38fd6b0b7f370c198db91ffd02e23b517426b58",
-                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3ffcf4b7d890770466da3b2666f82ac054e7ec72",
+                "reference": "3ffcf4b7d890770466da3b2666f82ac054e7ec72",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -285,7 +285,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.4.3"
+                "source": "https://github.com/twigphp/Twig/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -297,7 +297,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-28T08:42:51+00:00"
+            "time": "2022-12-27T12:28:18+00:00"
         }
     ],
     "packages-dev": [],

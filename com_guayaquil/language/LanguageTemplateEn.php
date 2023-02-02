@@ -14,6 +14,7 @@ class LanguageTemplateEn extends LanguageTemplate
         'notfound'                           => 'Search by %s %s has no result',
         'byfindvehicle'                      => 'VIN/FRAME',
         'findOems'                           => 'Unit search by OEM',
+        'findpartsByName'                    => 'Part search by name',
         'findApplicableVehicle'              => 'Search a car by oem',
         'findApplicableVehicleTip'           => 'Please enter OEM-number of detail',
         'Engine number'                      => 'Engine number',

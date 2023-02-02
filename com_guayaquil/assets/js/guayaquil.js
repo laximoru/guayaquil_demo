@@ -467,6 +467,17 @@ function checkOem(oem, block, ssd) {
     }
 }
 
+function checkName(nameField) {
+    value = nameField.value.trim();
+    if (value.length > 0) {
+        jQuery(nameField).parent().attr('class', 'g_input');
+        return true;
+    } else {
+        jQuery(nameField).parent().attr('class', 'g_input_error');
+        return false;
+    }
+}
+
 function openWizard(ssd, catalogCode) {
     if (ssd == 'null') {
         return false;

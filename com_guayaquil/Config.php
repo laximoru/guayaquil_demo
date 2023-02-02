@@ -34,6 +34,9 @@ class Config
     /* show find by oem field, find all detail usage in modification and details-list in modification */
     public  $showApplicability = true;
 
+    /* show find part by name inside of vehicle form */
+    public  $showNameSearch = true;
+
     /* Url to page where you can see offers to current detail */
     public  $backUrl = 'https://site.com/index.php?keyword={article}&brand={brand}';
 

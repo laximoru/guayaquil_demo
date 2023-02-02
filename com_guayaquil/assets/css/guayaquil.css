@@ -416,8 +416,10 @@ input[type=text], textarea {
     border: 1px solid #ff0000;
 }
 
+.oem-search #findByName .g_input,
 .oem-search #findByOEM .g_input,
-.oem-search #findByOEM .g_input_error {
+.oem-search #findByOEM .g_input_error,
+.oem-search #findByName .g_input_error {
     margin-top: 0;
 }
 
