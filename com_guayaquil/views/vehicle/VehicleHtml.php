@@ -35,7 +35,7 @@ class VehicleHtml extends View
         if ($units && count($units->getUnits()) === 1 && $linkedWithUnit) {
             /** @var UnitObject $unit */
             $unit = $units->getUnits()[0];
-            $this->redirect($this->createUrl2($unit));
+            $this->redirect($this->createUrl2($unit, ['vid' => $vid, 'cid' => $cid, 'c' => $catalogCode]));
         }
 
         if ($this->input->getString('checkQG', false) && $catalogInfo->getQuickGroupsFeature() != null) {

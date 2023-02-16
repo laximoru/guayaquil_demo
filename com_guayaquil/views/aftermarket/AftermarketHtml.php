@@ -43,7 +43,7 @@ class AftermarketHtml extends View
         $brand = $this->input->getString('brand');
         $detailId = $this->input->getString('detail_id');
         $input = $this->input->getArray();
-        $options = explode(',', $input['options'] ?? '');
+        $options = is_array($input['options'])  ? $input['options'] : [];
         $replacementtypes = $input['replacementtypes'] ?? [];
         $data = [];
 

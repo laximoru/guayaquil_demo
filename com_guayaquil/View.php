@@ -7,6 +7,7 @@ use guayaquil\modules\Input;
 use guayaquil\modules\pathway\Pathway;
 use guayaquil\modules\User;
 use GuayaquilLib\objects\oem\CatalogObject;
+use GuayaquilLib\objects\oem\UnitObject;
 use GuayaquilLib\ServiceAm;
 use GuayaquilLib\ServiceOem;
 use Twig\Environment;
@@ -204,6 +205,18 @@ class View
                 'c' => $catalog->getCode(),
                 'ssd' => @$params['ssd'],
                 'spi2' => $catalog->getWizard2Feature() != null ? 't' : ''
+            ]);
+        }
+
+        if (is_a($object, UnitObject::class)) {
+            /** @var UnitObject $catalog */
+            $unit = $object;
+            return $this->createUrl('unit', '', '', [
+                'c' => @$params['c'],
+                'vid' => @$params['vid'],
+                'uid' => $unit->getUnitId(),
+                'cid' => @$params['cid'],
+                'ssd' => $unit->getSsd(),
             ]);
         }
 
