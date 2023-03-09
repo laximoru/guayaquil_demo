@@ -23,9 +23,9 @@
     <div id="responseDataBlock" class="hidden">
         <div class="request_message_raw">
             <div class="request_time">
-                {{ 'REQUEST_TIME'|t(this.lastExecutionTime|round(4)) }}
+                {{ 'REQUEST_TIME'|t(lastExecutionTime|round(4)) }}
             </div>
-            {% for request in request.textRequests %}
+            {% for request in lastExecutionCommand %}
                 <div>
                     <b>{{ loop.index }}:</b> {{ request }}
                 </div>
@@ -33,7 +33,7 @@
         </div>
         {%- apply spaceless -%}
             <div class="response_message_raw">
-                <code class="hljs xml">{{ request.responseData }}</code>
+                <code class="hljs xml">{{ lastExecutionResponse }}</code>
             </div>
         {% endapply %}
     </div>
