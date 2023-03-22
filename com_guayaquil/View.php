@@ -52,6 +52,11 @@ class View
      */
     public $config;
 
+    /**
+     * @var String
+     */
+    public $page_title = 'Guayaqul demo 2';
+
     public function __construct()
     {
         $this->input = new Input();
