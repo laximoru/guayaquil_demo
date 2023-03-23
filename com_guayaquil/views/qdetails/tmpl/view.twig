@@ -58,7 +58,7 @@
                     {% set code = {} %}
                     {% set group = {} %}
 
-                    {% for unitDetail in unit.details %}
+                    {% for unitDetail in unit.parts %}
                         {% if unitDetail.match != 't' %}
                             {% set code = code|merge([unitDetail.codeonimage]) %}
                         {% endif %}

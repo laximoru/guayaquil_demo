@@ -1,7 +1,7 @@
 {% block unit %}
     {% if oem %}
         {% set cCois = [] %}
-        {% for detail in unit.details %}
+        {% for detail in unit.parts %}
             {% if oem == detail.oem|replace({' ': '', '-': ''})  %}
                 {% set cCois = cCois|merge([detail.codeonimage]) %}
             {% endif %}
