@@ -59,7 +59,7 @@
                     {% set group = {} %}
 
                     {% for unitDetail in unit.parts %}
-                        {% if unitDetail.match != 't' %}
+                        {% if unitDetail.match %}
                             {% set code = code|merge([unitDetail.codeonimage]) %}
                         {% endif %}
                     {% endfor %}
