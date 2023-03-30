@@ -42,6 +42,7 @@ class FulltextsearchHtml extends View
         $this->details = $details;
         $this->vehicle = $vehicle;
         $this->partName = $partName;
+        $this->supportApplicability = $cataloginfo->getDetailApplicabilityFeature() != null;
 
         parent::Display('fulltextsearch', 'view');
     }

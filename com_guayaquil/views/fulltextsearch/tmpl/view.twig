@@ -23,13 +23,17 @@
             <div>{{ 'SELECTBRANDDESC'|t }}</div>
             {% for part in details.parts %}
                 <div class="brand-section">
-                    {% set url = createUrl('applicabilitydetails', '', '', {
-                        'c': catalog.code,
-                        'vid': vehicle.vehicleId,
-                        'oem': part.oem,
-                        'ssd': vehicle.ssd
-                    }) %}
-                    <a class="title" href="{{ url }}">{{ part.oem }} {{ part.name }}</a>
+                    {% if supportApplicability %}
+                        {% set url = createUrl('applicabilitydetails', '', '', {
+                            'c': catalog.code,
+                            'vid': vehicle.vehicleId,
+                            'oem': part.oem,
+                            'ssd': vehicle.ssd
+                        }) %}
+                        <a class="title" href="{{ url }}">{{ part.oem }} {{ part.name }}</a>
+                    {% else %}
+                        {{ part.oem }} {{ part.name }}
+                    {% endif %}
                 </div>
             {% endfor %}
         {% else %}
