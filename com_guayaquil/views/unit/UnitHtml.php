@@ -31,7 +31,7 @@ class UnitHtml extends View
             Oem::getUnitInfo($catalogCode, $ssd, $uid, $this->getLanguage()->getLocalization()),
             Oem::listPartsByUnit($catalogCode, $ssd, $uid, $this->getLanguage()->getLocalization()),
             Oem::listImageMapByUnit($catalogCode, $ssd, $uid),
-            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization(), true),
             Oem::getVehicleInfo($catalogCode, $vid, $ssd, $this->getLanguage()->getLocalization()),
         ]);
 

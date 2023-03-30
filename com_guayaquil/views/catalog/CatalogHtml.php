@@ -19,7 +19,7 @@ class CatalogHtml extends View
         $spi2 = $this->input->getString('spi2', '');
 
         $requests = [
-            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization())
+            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization(), true)
         ];
 
         if ($spi2 == 't') {

@@ -30,7 +30,7 @@ class QdetailsHtml extends View
         /** @var VehicleObject $vehicle */
         /** @var QuickDetailListObject $details */
         list($catalogInfo, $vehicle, $details) = $this->getOemService()->queryButch([
-            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization(), true),
             Oem::getVehicleInfo($catalogCode, $vid, $ssd, $this->getLanguage()->getLocalization()),
             $oem ?
                 Oem::findPartInVehicle($catalogCode, $ssd, $oem, $this->getLanguage()->getLocalization()) :

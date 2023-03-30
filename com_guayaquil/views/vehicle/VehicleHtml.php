@@ -26,7 +26,7 @@ class VehicleHtml extends View
         /** @var CategoryListObject $categories */
         /** @var UnitListObject $units */
         list ($catalogInfo, $vehicle, $categories, $units) = $this->getOemService()->queryButch([
-            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization(), true),
             Oem::getVehicleInfo($catalogCode, $vid, $ssd, $this->getLanguage()->getLocalization()),
             Oem::listCategories($catalogCode, $vid, $ssd, $cid, $this->getLanguage()->getLocalization()),
             Oem::listUnits($catalogCode, $vid, $ssd, $cid, $this->getLanguage()->getLocalization()),

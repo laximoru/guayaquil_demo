@@ -21,7 +21,7 @@ class FulltextsearchHtml extends View
         /** @var PartShortListObject $details */
         /** @var VehicleObject $vehicle */
         list($cataloginfo, $details, $vehicle) = $this->getOemService()->queryButch([
-            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization(), true),
             Oem::findPartInVehicleByName($catalog, $vid, $ssd, $partName, $this->getLanguage()->getLocalization()),
             Oem::getVehicleInfo($catalog, $vid, $ssd, $this->getLanguage()->getLocalization()),
         ]);

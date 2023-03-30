@@ -15,7 +15,7 @@ class Wizard2Html extends View
         $ssd = $this->input->getString('ssd', '');
 
         $data = $this->getOemService()->queryButch([
-            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization(), true),
             Oem::getWizard2($catalog, $ssd, $this->getLanguage()->getLocalization()),
         ]);
 

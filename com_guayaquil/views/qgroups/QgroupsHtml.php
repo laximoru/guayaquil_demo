@@ -51,7 +51,7 @@ class QgroupsHtml extends View
         /** @var GroupObject $groups */
 //        try {
             list($catalogInfo, $vehicle, $groups) = $this->getOemService()->queryButch([
-                Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization()),
+                Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization(), true),
                 Oem::getVehicleInfo($catalogCode, $vid, $ssd, $this->getLanguage()->getLocalization()),
                 Oem::listQuickGroup($catalogCode, $vid, $ssd, $this->getLanguage()->getLocalization()),
             ]);

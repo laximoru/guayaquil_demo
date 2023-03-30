@@ -155,7 +155,7 @@ class VehiclesHtml extends View
         }
 
         if ($catalogCode) {
-            $requests[] = Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization());
+            $requests[] = Oem::getCatalogInfo($catalogCode, $this->getLanguage()->getLocalization(), true);
         }
 
         $data = $this->getOemService()->queryButch($requests);

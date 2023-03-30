@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "laximoru/guayaquillib",
-            "version": "v3.0.10",
+            "version": "v3.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laximoru/guayaquillib.git",
-                "reference": "1f33ee9e10c3b8d0643d34d6704a589b5ea14299"
+                "reference": "52172175fb79fdbf1ece06525f156f11b6d2f224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laximoru/guayaquillib/zipball/1f33ee9e10c3b8d0643d34d6704a589b5ea14299",
-                "reference": "1f33ee9e10c3b8d0643d34d6704a589b5ea14299",
+                "url": "https://api.github.com/repos/laximoru/guayaquillib/zipball/52172175fb79fdbf1ece06525f156f11b6d2f224",
+                "reference": "52172175fb79fdbf1ece06525f156f11b6d2f224",
                 "shasum": ""
             },
             "require": {
@@ -54,9 +54,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laximoru/guayaquillib/issues",
-                "source": "https://github.com/laximoru/guayaquillib/tree/v3.0.10"
+                "source": "https://github.com/laximoru/guayaquillib/tree/v3.0.11"
             },
-            "time": "2023-03-20T09:16:08+00:00"
+            "time": "2023-03-30T04:09:49+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

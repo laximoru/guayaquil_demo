@@ -29,7 +29,7 @@ class ApplicabilitydetailsHtml extends View
         /** @var QuickDetailListObject $details */
         /** @var VehicleObject $vehicle */
         list($cataloginfo, $details, $vehicle) = $this->getOemService()->queryButch([
-            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization()),
+            Oem::getCatalogInfo($catalog, $this->getLanguage()->getLocalization(), true),
             Oem::findPartInVehicle($catalog, $ssd, $oem, $this->getLanguage()->getLocalization()),
             Oem::getVehicleInfo($catalog, $vid, $ssd, $this->getLanguage()->getLocalization()),
         ]);
