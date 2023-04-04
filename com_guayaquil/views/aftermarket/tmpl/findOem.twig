@@ -16,7 +16,7 @@
         <span>{{ detail.dimensions ? detail.dimensions.d1 ~ 'X' ~ detail.dimensions.d2 ~ 'X' ~ detail.dimensions.d3 : '' }}</span>
         <br/>
         {% for property in detail.properties %}
-            <span class="am-detail-property-name">{{ property.property }}: </span>
+            <span class="am-detail-property-name">{{ property.propertyName }}: </span>
             <span class="am-detail-property-value">{{ property.value }}</span><br/>
         {% endfor %}
     </div>
