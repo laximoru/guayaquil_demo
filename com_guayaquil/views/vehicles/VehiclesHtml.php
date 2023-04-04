@@ -119,7 +119,7 @@ class VehiclesHtml extends View
 
                     $this->searchBy = $findType;
 
-                    if ($catalogs->getReferences()) {
+                    if ($catalogs->getReferences() && count($catalogs->getReferences())) {
                         $originals = $catalogs->getReferences();
 
                         if (!$brand) {
@@ -137,6 +137,9 @@ class VehiclesHtml extends View
                             }
                         }
                     }
+
+                    parent::Display('vehicles', 'nothingFound');
+                    die();
                 }
 
                 $type = [
