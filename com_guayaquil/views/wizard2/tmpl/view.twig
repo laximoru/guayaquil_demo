@@ -18,7 +18,7 @@
                             <option value="">{{ field.value }}</option>
                         </select>
                         <a href="{{ createUrl('wizard2', '', '', {'c': c, 'ssd': field.ssd ? field.ssd : ''  }) }}">
-                            <img src="com_guayaquil/assets/images/remove.png" alt="">
+                            <img src="{{ config.assets_url }}/images/remove.png" alt="">
                         </a>
                     {% else %}
                     <select class="catalog_search_input select" name="select-{{ field.name }}"

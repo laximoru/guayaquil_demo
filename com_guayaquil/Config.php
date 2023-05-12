@@ -6,6 +6,8 @@ class Config
 {
     public $imageSize = 250;
     
+    public  $base_url = 'index.php';
+    public  $assets_url = '/com_guayaquil/assets';
     public  $catalog_data = 'ru_RU';
     public  $defaultUserLogin = '';
     public  $defaultUserKey = '';
@@ -41,7 +43,7 @@ class Config
     public  $backUrl = 'https://site.com/index.php?keyword={article}&brand={brand}';
 
     /* image placeholder */
-    public  $imagePlaceholder = 'com_guayaquil/assets/images/no-image.gif';
+    public  $imagePlaceholder = '/com_guayaquil/assets/images/no-image.gif';
 
     /* columns on catalogs list page */
     public  $catalogColumns = 3;

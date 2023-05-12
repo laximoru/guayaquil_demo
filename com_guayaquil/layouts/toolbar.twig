@@ -1,7 +1,7 @@
 <div class="language-panel">
     <div>
         <div class="header-logo">
-            <a href="index.php"><span class="letter">G</span><span
+            <a href="{{ createUrl() }}"><span class="letter">G</span><span
                         class="text">uayaquil</span> <span class="copyright">©</span></a>
         </div>
         <select class="select" name="language" id="language" autocomplete="off">
@@ -25,9 +25,9 @@
                     Access:
                         {% for service in user.services %}
                             {% if service == 'am' %}
-                                <a href=index.php?task=aftermarket"><span style="color: #90acce;">Aftermarket</span></a>
+                                <a href="{{ createUrl('aftermarket') }}"><span style="color: #90acce;">Aftermarket</span></a>
                             {% elseif service == 'oem' %}
-                                <a href=index.php?task=catalogs"><span style="color: #90acce;">OEM</span></a>
+                                <a href="{{ createUrl('catalogs') }}"><span style="color: #90acce;">OEM</span></a>
                             {% endif %}
                         {% endfor %}
                         </span>

@@ -29,7 +29,7 @@
                 <div class="guayaquil_unit_icons">
                     {% if unit.filter != '' %}
                         <div {{ 'id=filter data-url=' ~ filterUrl }} class="guayaquil_unit_filter">
-                            <img src="com_guayaquil/assets/images/filter.png">
+                            <img src="{{ config.assets_url }}/images/filter.png">
                         </div>
                     {% endif %}
                     <div class="unitlist-zoom"
@@ -38,7 +38,7 @@
                          link="{{ linkToUnit }}"
                          full="{{ unit.largeimageurl ~ '&iframe=true' }}"
                          title="{{ unit.code|noSpaces }}: {{ unit.name|upper }}">
-                        <img src="com_guayaquil/assets/images/zoom_{{ config.theme }}.png">
+                        <img src="{{ config.assets_url }}/images/zoom_{{ config.theme }}.png">
                     </div>
                 </div>
                 <div name="{{ unit.code|noSpaces }}" class="g_highlight"
