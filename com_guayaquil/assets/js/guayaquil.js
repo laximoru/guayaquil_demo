@@ -1145,8 +1145,8 @@ jQuery(document).ready(function () {
     });
 });
 
-var opennedimage = '../images/openned.gif';
-var closedimage = '../images/closed.gif';
+var opennedimage = 'assets/images/openned.gif';
+var closedimage = 'assets/images/closed.gif';
 jQuery(document).ready(function ($) {
     jQuery('td.g_rowdatahint').tooltip({
         track: true,
