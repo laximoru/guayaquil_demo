@@ -40,7 +40,7 @@ class Config
     public  $showNameSearch = true;
 
     /* Url to page where you can see offers to current detail */
-    public  $backUrl = 'https://site.com/index.php?keyword={article}&brand={brand}';
+    public  $backUrl = 'https://site.com/index.php?keyword={article}&brand={brand}&name={name}';
 
     /* image placeholder */
     public  $imagePlaceholder = '/com_guayaquil/assets/images/no-image.gif';
