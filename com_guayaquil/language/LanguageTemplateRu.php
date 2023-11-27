@@ -151,6 +151,8 @@ class LanguageTemplateRu extends LanguageTemplate
         'REQUEST_DATA'                       => 'Посмотреть запросы',
         'NO_NAME'                            => 'Без названия',
         'GET_LOGIN'                          => 'Введите логин и ключ от сервиса <a href="https://laximo.ru" target="_blank">Laximo.OEM/ Laximo.Aftermarket</a>',
+        'GET_LOGIN_OEM'                      => 'Нет доступа к Laximo.OEM, необходимо ввести логин и пароль пользователя имеющего доступ к сервису',
+        'GET_LOGIN_AM'                       => 'Нет доступа к Laximo.Aftermarket, необходимо ввести логин и пароль пользователя имеющего доступ к сервису',
         'E_ACCESSDENIED'                     => 'Доступ к каталогу заблокирован, возможно он не оплачен или истек срок действия лицензии.',
         'SELECTBRAND'                        => 'Выбор производителя',
         'SELECTBRANDDESC'                    => 'По Вашему запросу было найдено несколько вариантов. ',

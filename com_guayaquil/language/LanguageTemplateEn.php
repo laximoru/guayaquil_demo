@@ -144,6 +144,8 @@ class LanguageTemplateEn extends LanguageTemplate
         'REQUEST_DATA'                       => 'Request data',
         'NO_NAME'                            => 'No name',
         'GET_LOGIN'                          => 'Please enter login and key for <a href="https://laximo.ru" target="_blank">Laximo.OEM / Laximo.Aftermarket</a>',
+        'GET_LOGIN_OEM'                      => 'Access denied. Please enter login and key for Laximo.OEM',
+        'GET_LOGIN_AM'                       => 'Access denied. Please enter login and key for Laximo.Aftermarket',
         'E_ACCESSDENIED'                     =>  'Access denied',
         'SELECTBRAND'                        => 'Brands',
         'SELECTBRANDDESC'                    => 'Select brand',

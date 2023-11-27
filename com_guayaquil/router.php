@@ -31,6 +31,7 @@ class router
                 }
             }
         } catch (UnauthorisedException $ex) {
+            $view->service = $ex->service;
             $view->render('error/tmpl', 'unauthorized.twig');
         } catch (Exception $ex) {
             try {

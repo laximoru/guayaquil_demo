@@ -114,7 +114,7 @@ class View
             }
 
             if (!$login || !$user) {
-                throw new UnauthorisedException();
+                throw new UnauthorisedException('oem');
             }
 
             $oem = new ServiceOemProxy($this, $login, $password, $this->config->oemServiceUrl);
@@ -137,7 +137,7 @@ class View
             }
 
             if (!$login || !$user) {
-                throw new UnauthorisedException();
+                throw new UnauthorisedException('am');
             }
 
             $am = new ServiceAmProxy($this, $login, $password, $this->config->amServiceUrl);
@@ -180,7 +180,7 @@ class View
         }
 
         foreach ($params as $key => $param) {
-            $params[$key] = trim($param);
+            $params[$key] = trim($param??'');
         }
 
         if ($params) {

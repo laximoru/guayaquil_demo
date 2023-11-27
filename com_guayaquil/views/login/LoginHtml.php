@@ -34,7 +34,7 @@ class LoginHtml extends View
             return;
         }
 
-        $login = trim($user['login']);
+        $login = trim($user['login']??'');
         $key = $user['password'];
 
         $url = parse_url($user['backurl']);

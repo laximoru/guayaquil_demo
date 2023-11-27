@@ -1,5 +1,11 @@
 <div class="auth-page-wrapper">
-    <h3>{{ 'GET_LOGIN'|t|raw }}</h3>
+    {% if service == 'oem' %}
+        <h3>{{ 'GET_LOGIN_OEM'|t|raw }}</h3>
+    {% elseif service == 'am' %}
+        <h3>{{ 'GET_LOGIN_AM'|t|raw }}</h3>
+    {% else %}
+        <h3>{{ 'GET_LOGIN'|t|raw }}</h3>
+    {% endif %}
     <div id="login-form-content">
         <div class="login-container">
             {% apply spaceless %}
