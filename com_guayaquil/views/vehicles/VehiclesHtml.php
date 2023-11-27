@@ -109,7 +109,6 @@ class VehiclesHtml extends View
                         $this->catalogsCodes[$catalog->getBrand()] = $catalog->getCode();
                         $this->catalogNames[$catalog->getCode()] = $catalog->getName();
                     }
-                    $amManufacturers = $this->getAmService()->listManufacturer();
 
                     try {
                         $catalogs = $this->getOemService()->findCatalogsByOem($oem);
