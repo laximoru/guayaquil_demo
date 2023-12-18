@@ -38,13 +38,13 @@
         <div class="guayaquil_unit_icons">
             {% if unit.filter and not applicability %}
                 <div {{ 'id=filter data-url=' ~ filterUrl }} class="guayaquil_unit_filter qgroups-unit-filter">
-                    <img src="com_guayaquil/assets/images/filter.png">
+                    <img src="{{ config.assets_url }}/images/filter.png">
                 </div>
             {% endif %}
             {% if unit.largeimageurl != '' %}
                 <div class="guayaquil_zoom" link="{{ link }}" full="{{ unit.largeimageurl }}"
                      title="<a href='{{ link }}'>{{ unit.name }}</a>" data-uid="{{ unit.unitid }}">
-                    <img src="com_guayaquil/assets/images/zoom_{{ config.theme }}.png">
+                    <img src="{{ config.assets_url }}/images/zoom_{{ config.theme }}.png">
                 </div>
             {% endif %}
         </div>

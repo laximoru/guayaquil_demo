@@ -187,13 +187,10 @@ class View
             $paths = array_merge($paths, $params);
         }
 
-        $baseUrl = $_SERVER['HTTP_HOST'] . '/';
+        $baseUrl = $this->config->base_url;
 
         if ($paths) {
-            $url = ('index.php?' . http_build_query($paths));
-            if (strpos($url, $baseUrl) === false) {
-                $url = 'index.php?' . http_build_query($paths);
-            }
+            $url = ($baseUrl . '?' . http_build_query($paths));
         } else {
             $url = $baseUrl;
         }

@@ -1,4 +1,5 @@
 {
+  "name": "laximoru/guayaquil_demo",
   "autoload": {
     "psr-4": {
       "guayaquil\\": "com_guayaquil/"

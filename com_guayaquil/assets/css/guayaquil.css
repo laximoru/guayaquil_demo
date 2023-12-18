@@ -516,7 +516,7 @@ input[type=password]:focus {
     background: none;
 }
 
-.btn:not('.search'):hover, .btn:not('.search'):active {
+.btn:not(.search):hover, .btn:not(.search):active {
     background: #006FA4;
     border: solid 1px #006FA4;
     color: #FFF;
@@ -544,7 +544,7 @@ input[type=password]:focus {
 }
 
 .select_clear:after {
-    background: url('com_guayaquil/assets/images/remove.png');
+    background: url('../images/remove.png');
     content: '';
     position: absolute;
 }
@@ -1123,7 +1123,7 @@ div.g_highlight_glow {
 
 .g_filter_row td[name='c_pnc'] {
     padding-left: 27px;
-    background: url(./details/images/filter.gif) no-repeat 2px center;
+    background: url(../images/filter.png) no-repeat 2px center;
 }
 
 .g_filter_scroller {
@@ -1381,7 +1381,7 @@ div.g_catalog_float_name {
 }
 
 .gdNoImage {
-    background: url(images/noimage.png) center no-repeat #fff;
+    background: url(../images/noimage.png) center no-repeat #fff;
 }
 
 .gVehicleLink, .gQuickGroupsLink {

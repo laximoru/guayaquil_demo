@@ -4,7 +4,7 @@
             <div class="guayaquil_zoom cboxElement"
                  full="{{ unit.largeImageUrl }}"
                  title="{{ unit.code }}: {{ unit.name }}">
-                <img src="com_guayaquil/assets/images/zoom_{{ config.theme }}.png">
+                <img src="{{ config.assets_url }}/images/zoom_{{ config.theme }}.png">
             </div>
         </div>
     {% endif %}
@@ -42,7 +42,7 @@
                         }) %}
                             <a href="{{ referenceLink }}">
                          {% endif %}
-                            <img src="com_guayaquil/assets/images/spacer.gif" width="{{ width }}" height="{{ height }}">
+                            <img src="{{ config.assets_url }}/images/spacer.gif" width="{{ width }}" height="{{ height }}">
                         {% if item.link %}
                             </a>
                         {% endif %}

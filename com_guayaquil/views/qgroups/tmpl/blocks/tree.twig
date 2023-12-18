@@ -160,7 +160,7 @@
                         jQuery(requestBlock).html(requestData.html());
                     }
 
-                    window.history.replaceState({}, '', 'index.php?' + cUrl);
+                    window.history.replaceState({}, '', window.location.pathname + '?' + cUrl);
 
                     hidePreloader();
                 }

@@ -61,7 +61,7 @@
                                     <a href="javascript:void(0)" data-url="{{ filterUrl }}"
                                        id="filter">{{ detail.oem }} {{ 'needconfirm'|t }}</a>
                                 {% else %}
-                                    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode }) %}
+                                    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode, '{name}': detail.name|url_encode }) %}
                                     <a href="{{ marketUrl ? marketUrl : 'javascript:void(0)' }}"
                                        {% if config.linkTarget %}target="{{ config.linkTarget }}"{% endif %}>{{ detail.oem }}</a>
                                 {% endif %}

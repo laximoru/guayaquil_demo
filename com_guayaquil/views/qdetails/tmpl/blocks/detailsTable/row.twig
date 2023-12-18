@@ -12,7 +12,7 @@
     'fromTask' : 'qdetails'
     }) %}
 
-    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode }) %}
+    {% set marketUrl = config.backUrl|replace({'{article}': detail.oem|url_encode, '{brand}': vehicle.brand|url_encode, '{name}': detail.name|url_encode }) %}
 
     <tr class="g_collapsed {{ oem == detail.oem|replace({' ': '', '-': ''}) and oem ? 'g_highlight_lock' : '' }}
         {{ anotherFromUnit == 'true' ? 'anotherDetail hidden' : '' }}"

@@ -34,9 +34,9 @@
                         $this.find('.g_input').removeClass('g_input_error');
                         value = value.replace(/[^0-9A-Za-z]/g, '');
                         if (catalog) {
-                            window.location = 'index.php?task=vehicles&ft=FindVehicle&c=' + catalog + '&identString=$identString$&ssd='.replace('\$identString\$', value);
+                            window.location.search = 'task=vehicles&ft=FindVehicle&c=' + catalog + '&identString=$identString$&ssd='.replace('\$identString\$', value);
                         } else {
-                            window.location = 'index.php?task=vehicles&ft=FindVehicle&c=&identString=$identString$&ssd='.replace('\$identString\$', value);
+                            window.location.search = 'task=vehicles&ft=FindVehicle&c=&identString=$identString$&ssd='.replace('\$identString\$', value);
                         }
                     } else {
                         $this.find('.g_input').addClass('g_input_error');
