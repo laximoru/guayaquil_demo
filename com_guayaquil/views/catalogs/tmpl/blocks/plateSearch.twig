@@ -1,0 +1,13 @@
+{% block plateSearch %}
+    {% apply spaceless %}
+        <form name="findByplate" onSubmit="checkplate(this.plate.value, '#plate'); return false;" id="findByplate">
+            <div id="plateInput" class="g_input">
+                <input class="catalog_search_input" name="plate" type="text" id="plate" size="10" value=""/>
+                <input type="submit" class="btn search" name="plateSubmit" value="" id="plateSubmit"/>
+            </div>
+            <input type="hidden" name="task" value="vehicles"/>
+            <input type="hidden" name="ft" value="findByPlate"/>
+        </form>
+        <span class="example gray">{{ 'searchbyplateexample'|t(config.plateExample) }}</span>
+    {% endapply %}
+{% endblock %}

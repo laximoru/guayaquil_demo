@@ -150,10 +150,22 @@ class VehiclesHtml extends View
 
                 break;
 
-            default:
-                $request->error = 'err';
-                $type = ['name' => $findType];
+            case 'findByPlate':
+                $ident = $this->input->getString('plate', '');
+
+                $requests[] = Oem::findVehicleByPlateNumber($ident, $this->getLanguage()->getLocalization());
+
+                $type = [
+                    'name' => $this->getLanguage()->t('by' . strtolower($findType)),
+                    'value' => $ident
+                ];
+
+                $typeValue = $ident;
                 break;
+
+            default:
+                parent::Display($tpl, $view);
+                return;
         }
 
         if ($catalogCode) {

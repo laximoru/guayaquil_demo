@@ -467,6 +467,24 @@ function checkOem(oem, block, ssd) {
     }
 }
 
+function checkPlate(oem, block, ssd) {
+    var value;
+    var form = jQuery(document).find('form[name="findByPlate"]');
+    var inputWrapper = jQuery(form).find('#PlateInput');
+
+    value = oem.replace(/[^0-9А-я]/g, '');
+    jQuery(inputWrapper).find('input[name="plate"]').val(value);
+    var serrialized = form.serialize();
+    var expr = new RegExp('\^[А-я0-9]{1,}\$', 'i');
+    if (expr.test(value)) {
+        form.find('input[name="Plate"]').val(value);
+        jQuery(inputWrapper).attr('class', 'g_input');
+        window.location = 'index.php?' + serrialized;
+    } else {
+        jQuery(inputWrapper).attr('class', 'g_input_error');
+    }
+}
+
 function checkName(nameField) {
     value = nameField.value.trim();
     if (value.length > 0) {

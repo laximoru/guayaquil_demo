@@ -13,6 +13,9 @@
                         {% if config.showApplicability %}
                             <button data-tab="#oem-tab" class="response-data-link {{ searchBy == 'findByOEM' ? 'active' : '' }}">{{ 'searchbyoemtab'|t }}</button>
                         {% endif %}
+                        {% if config.plateSearch %}
+                            <button data-tab="#plate-tab" class="response-data-link">{{ 'searchbyplatetab'|t }}</button>
+                        {% endif %}
                     </div>
                     <div class="content">
                         <div id="vin-frame-tab" class="tab {{ searchBy == 'findByOEM' ? '' : 'active' }}">
@@ -24,6 +27,13 @@
                             <div id="oem-tab" class="tab {{ searchBy == 'findByOEM' ? 'active' : '' }}">
                                 <div class="catalogs-search">
                                     {{ block('oemSearch') }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if config.plateSearch %}
+                            <div id="plate-tab" class="tab">
+                                <div class="catalogs-search">
+                                    {{ block('plateSearch') }}
                                 </div>
                             </div>
                         {% endif %}
