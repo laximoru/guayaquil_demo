@@ -16,7 +16,9 @@
     {% if lastExecutionResponse %}
         {%- apply spaceless -%}
             <div class="response_message hidden">
-                <code class="hljs xml">{{ lastExecutionResponse }}</code>
+                {% for response in lastExecutionResponse %}
+                    <code class="hljs xml">{{ response }}</code>
+                {% endfor %}
             </div>
         {% endapply %}
     {% endif %}

@@ -320,7 +320,8 @@ function formatXml(xml) {
 
 function highLightXml(element) {
     var parser = new DOMParser();
-    var responseElem = parser.parseFromString(jQuery('.response_message').text(), "text/xml");
+    // var responseElem = parser.parseFromString(jQuery('.response_message').text(), "text/xml");
+    var responseElem = parser.parseFromString(jQuery(element).text(), "text/xml");
 
     if (document.body.getAttribute('data-mark') === '0') {
 

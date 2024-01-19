@@ -43,9 +43,9 @@ class View
     public $lastExecutionCommand = [];
 
     /**
-     * @var string
+     * @var string[]
      */
-    public $lastExecutionResponse;
+    public $lastExecutionResponse = [];
     
     /**
      * @var Config
@@ -77,7 +77,7 @@ class View
 
     public function appendLastXmlResponse(string $xmlString)
     {
-        $this->lastExecutionResponse .= $xmlString;
+        $this->lastExecutionResponse[] = $xmlString;
     }
 
     public function appendLastExecutionCommand(array $commands)

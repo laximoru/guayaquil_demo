@@ -33,7 +33,9 @@
         </div>
         {%- apply spaceless -%}
             <div class="response_message_raw">
-                <code class="hljs xml">{{ lastExecutionResponse }}</code>
+                {% for response in lastExecutionResponse %}
+                    <code class="hljs xml">{{ response }}</code>
+                {% endfor %}
             </div>
         {% endapply %}
     </div>
