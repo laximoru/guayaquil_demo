@@ -131,7 +131,7 @@ class VehiclesHtml extends View
 
                         if (!empty($amDetails->getOems())) {
                             $brands = $this->getDetailBrands($amDetails->getOems());
-                            if ($brands) {
+                            if ($brands && is_array($brands) && count($brands)) {
                                 $this->displayDetailBrand($brands);
                             }
                         }
